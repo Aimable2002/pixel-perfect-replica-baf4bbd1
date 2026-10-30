@@ -17,14 +17,15 @@ export const AGENT_PROMPTS = [
 function renderText(text: string) {
   return text.split("\n").map((line, i) => {
     const quote = line.startsWith("> ");
-    const parts = (quote ? line.slice(2) : line).split(/(\*\*[^*]+\*\*)/g).map((p, j) =>
+    const bullet = line.startsWith("- ");
+    const parts = (quote || bullet ? line.slice(2) : line).split(/(\*\*[^*]+\*\*)/g).map((p, j) =>
       p.startsWith("**") ? <strong key={j}>{p.slice(2, -2)}</strong> : <span key={j}>{p}</span>,
     );
     if (!line.trim()) return <div key={i} className="h-2" />;
     return quote ? (
       <blockquote key={i} className="my-1 border-l-2 border-primary pl-3 italic text-muted-foreground">{parts}</blockquote>
     ) : (
-      <p key={i}>{line.startsWith("- ") ? <>• {parts.slice(0)}</> : parts}</p>
+      <p key={i}>{bullet ? <>• {parts}</> : parts}</p>
     );
   });
 }
