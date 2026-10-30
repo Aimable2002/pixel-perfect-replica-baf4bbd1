@@ -1,12 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Bot, CalendarPlus, Inbox, Megaphone, MessageSquareReply, PenSquare, Sparkles as _S, Target, Users } from "lucide-react";
+import { Bot, CalendarPlus, Inbox, Megaphone, MessageSquareReply, PenSquare, Target, Users } from "lucide-react";
 import { AppShell } from "@/components/kaliza/AppShell";
 import { CardSkeletons, PageHeader, StatCard, fmtTime } from "@/components/kaliza/common";
 import { Button } from "@/components/ui/button";
 import { getActivityFeed, getAgentSuggestions, getDashboardMetrics } from "@/lib/api";
 
-void _S;
 
 export const Route = createFileRoute("/")({
   head: () => ({
