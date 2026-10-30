@@ -10,33 +10,180 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AgentRouteImport } from './routes/agent'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
+import { Route as ContentRouteImport } from './routes/content'
+import { Route as InboxRouteImport } from './routes/inbox'
+import { Route as LeadsRouteImport } from './routes/leads'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as AdsIndexRouteImport } from './routes/ads.index'
+import { Route as AdsIdRouteImport } from './routes/ads.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AgentRoute = AgentRouteImport.update({
+  id: '/agent',
+  path: '/agent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContentRoute = ContentRouteImport.update({
+  id: '/content',
+  path: '/content',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InboxRoute = InboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeadsRoute = LeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdsIndexRoute = AdsIndexRouteImport.update({
+  id: '/ads/',
+  path: '/ads/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdsIdRoute = AdsIdRouteImport.update({
+  id: '/ads/$id',
+  path: '/ads/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agent': typeof AgentRoute
+  '/analytics': typeof AnalyticsRoute
+  '/content': typeof ContentRoute
+  '/inbox': typeof InboxRoute
+  '/leads': typeof LeadsRoute
+  '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
+  '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
+  '/ads/$id': typeof AdsIdRoute
+  '/ads/': typeof AdsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agent': typeof AgentRoute
+  '/analytics': typeof AnalyticsRoute
+  '/content': typeof ContentRoute
+  '/inbox': typeof InboxRoute
+  '/leads': typeof LeadsRoute
+  '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
+  '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
+  '/ads/$id': typeof AdsIdRoute
+  '/ads': typeof AdsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agent': typeof AgentRoute
+  '/analytics': typeof AnalyticsRoute
+  '/content': typeof ContentRoute
+  '/inbox': typeof InboxRoute
+  '/leads': typeof LeadsRoute
+  '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
+  '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
+  '/ads/$id': typeof AdsIdRoute
+  '/ads/': typeof AdsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/agent'
+    | '/analytics'
+    | '/content'
+    | '/inbox'
+    | '/leads'
+    | '/login'
+    | '/onboarding'
+    | '/settings'
+    | '/signup'
+    | '/ads/$id'
+    | '/ads/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/agent'
+    | '/analytics'
+    | '/content'
+    | '/inbox'
+    | '/leads'
+    | '/login'
+    | '/onboarding'
+    | '/settings'
+    | '/signup'
+    | '/ads/$id'
+    | '/ads'
+  id:
+    | '__root__'
+    | '/'
+    | '/agent'
+    | '/analytics'
+    | '/content'
+    | '/inbox'
+    | '/leads'
+    | '/login'
+    | '/onboarding'
+    | '/settings'
+    | '/signup'
+    | '/ads/$id'
+    | '/ads/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentRoute: typeof AgentRoute
+  AnalyticsRoute: typeof AnalyticsRoute
+  ContentRoute: typeof ContentRoute
+  InboxRoute: typeof InboxRoute
+  LeadsRoute: typeof LeadsRoute
+  LoginRoute: typeof LoginRoute
+  OnboardingRoute: typeof OnboardingRoute
+  SettingsRoute: typeof SettingsRoute
+  SignupRoute: typeof SignupRoute
+  AdsIdRoute: typeof AdsIdRoute
+  AdsIndexRoute: typeof AdsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +195,99 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/agent': {
+      id: '/agent'
+      path: '/agent'
+      fullPath: '/agent'
+      preLoaderRoute: typeof AgentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/content': {
+      id: '/content'
+      path: '/content'
+      fullPath: '/content'
+      preLoaderRoute: typeof ContentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inbox': {
+      id: '/inbox'
+      path: '/inbox'
+      fullPath: '/inbox'
+      preLoaderRoute: typeof InboxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leads': {
+      id: '/leads'
+      path: '/leads'
+      fullPath: '/leads'
+      preLoaderRoute: typeof LeadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ads/': {
+      id: '/ads/'
+      path: '/ads'
+      fullPath: '/ads/'
+      preLoaderRoute: typeof AdsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ads/$id': {
+      id: '/ads/$id'
+      path: '/ads/$id'
+      fullPath: '/ads/$id'
+      preLoaderRoute: typeof AdsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentRoute: AgentRoute,
+  AnalyticsRoute: AnalyticsRoute,
+  ContentRoute: ContentRoute,
+  InboxRoute: InboxRoute,
+  LeadsRoute: LeadsRoute,
+  LoginRoute: LoginRoute,
+  OnboardingRoute: OnboardingRoute,
+  SettingsRoute: SettingsRoute,
+  SignupRoute: SignupRoute,
+  AdsIdRoute: AdsIdRoute,
+  AdsIndexRoute: AdsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

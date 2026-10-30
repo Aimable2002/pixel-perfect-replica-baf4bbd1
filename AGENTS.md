@@ -8,3 +8,7 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Architecture
+- All UI data access goes through `src/lib/api.ts`; mock data lives only in `src/lib/mock.ts` so the backend can be swapped by editing api.ts alone.
+- Dashboard pages wrap themselves in `AppShell` (sidebar + agent drawer); auth/onboarding pages render without it.
