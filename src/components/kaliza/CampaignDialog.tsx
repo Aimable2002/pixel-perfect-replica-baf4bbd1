@@ -18,10 +18,10 @@ export function CampaignDialog({ open, campaign, onClose, onSaved }: { open: boo
   }, [open, campaign]);
 
   const save = async () => {
-    if (!name.trim()) return toast.error("Give the campaign a name");
-    if (budget < 1) return toast.error("Daily budget must be at least $1");
+    if (!name.trim()) { toast.error("Give the campaign a name"); return; }
+    if (budget < 1) { toast.error("Daily budget must be at least $1"); return; }
     setSaving(true);
-    await saveCampaign({ id: campaign?.id, name: name.trim(), objective, budget });
+    await saveCampaign({ ...(campaign ? { id: campaign.id } : {}), name: name.trim(), objective, budget });
     setSaving(false);
     toast.success(campaign ? "Campaign updated" : "Draft campaign created");
     onSaved();

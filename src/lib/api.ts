@@ -47,7 +47,7 @@ export const sendReply = (conversationId: string, text: string) => {
     c.messages.push({ id: uid(), from: "owner", text, time: new Date().toISOString() });
     c.status = "resolved";
     c.unread = false;
-    c.suggestedReply = undefined;
+    delete c.suggestedReply;
   }
   return delay(c, 300);
 };
@@ -113,7 +113,7 @@ export const toggleAccountConnection = (id: string) => {
 };
 export const getTeam = () => delay(mock.mockTeam);
 export const inviteTeamMember = (email: string) => {
-  const m = { id: uid(), name: email.split("@")[0], email, role: "Viewer" as const };
+  const m = { id: uid(), name: email.split("@")[0] ?? email, email, role: "Viewer" as const };
   mock.mockTeam.push(m);
   return delay(m, 300);
 };

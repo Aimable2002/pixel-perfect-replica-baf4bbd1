@@ -50,22 +50,22 @@ function AnalyticsPage() {
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
           <ChartCard title="Reach">
             <ChartContainer config={{ reach: { label: "Reach", color: "var(--chart-1)" } }} className="h-64 w-full">
-              <AreaChart data={data}><CartesianGrid vertical={false} />{axis.x}{axis.y}<ChartTooltip content={<ChartTooltipContent />} /><Area dataKey="reach" stroke="var(--color-reach)" fill="var(--color-reach)" fillOpacity={0.15} /></AreaChart>
+              <AreaChart data={data ?? []}><CartesianGrid vertical={false} />{axis.x}{axis.y}<ChartTooltip content={<ChartTooltipContent />} /><Area dataKey="reach" stroke="var(--color-reach)" fill="var(--color-reach)" fillOpacity={0.15} /></AreaChart>
             </ChartContainer>
           </ChartCard>
           <ChartCard title="Engagement">
             <ChartContainer config={{ engagement: { label: "Engagements", color: "var(--chart-2)" } }} className="h-64 w-full">
-              <LineChart data={data}><CartesianGrid vertical={false} />{axis.x}{axis.y}<ChartTooltip content={<ChartTooltipContent />} /><Line dataKey="engagement" stroke="var(--color-engagement)" strokeWidth={2} dot={false} /></LineChart>
+              <LineChart data={data ?? []}><CartesianGrid vertical={false} />{axis.x}{axis.y}<ChartTooltip content={<ChartTooltipContent />} /><Line dataKey="engagement" stroke="var(--color-engagement)" strokeWidth={2} dot={false} /></LineChart>
             </ChartContainer>
           </ChartCard>
           <ChartCard title="Leads">
             <ChartContainer config={{ leads: { label: "Leads", color: "var(--chart-3)" } }} className="h-64 w-full">
-              <BarChart data={data}><CartesianGrid vertical={false} />{axis.x}{axis.y}<ChartTooltip content={<ChartTooltipContent />} /><Bar dataKey="leads" fill="var(--color-leads)" radius={4} /></BarChart>
+              <BarChart data={data ?? []}><CartesianGrid vertical={false} />{axis.x}{axis.y}<ChartTooltip content={<ChartTooltipContent />} /><Bar dataKey="leads" fill="var(--color-leads)" radius={4} /></BarChart>
             </ChartContainer>
           </ChartCard>
           <ChartCard title="Ad spend vs results">
             <ChartContainer config={{ spend: { label: "Spend ($)", color: "var(--chart-4)" }, results: { label: "Results", color: "var(--chart-1)" } }} className="h-64 w-full">
-              <LineChart data={data}><CartesianGrid vertical={false} />{axis.x}{axis.y}<ChartTooltip content={<ChartTooltipContent />} /><Line dataKey="spend" stroke="var(--color-spend)" strokeWidth={2} dot={false} /><Line dataKey="results" stroke="var(--color-results)" strokeWidth={2} dot={false} /></LineChart>
+              <LineChart data={data ?? []}><CartesianGrid vertical={false} />{axis.x}{axis.y}<ChartTooltip content={<ChartTooltipContent />} /><Line dataKey="spend" stroke="var(--color-spend)" strokeWidth={2} dot={false} /><Line dataKey="results" stroke="var(--color-results)" strokeWidth={2} dot={false} /></LineChart>
             </ChartContainer>
           </ChartCard>
         </div>

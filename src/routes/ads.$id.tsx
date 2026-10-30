@@ -56,7 +56,7 @@ function CampaignDetail() {
               <h2 className="mb-4 font-semibold">Last 14 days</h2>
               {perf.isLoading ? <CardSkeletons count={1} className="h-64" /> : (
                 <ChartContainer config={{ results: { label: "Results", color: "var(--chart-1)" }, spend: { label: "Spend", color: "var(--chart-2)" } }} className="h-64 w-full">
-                  <AreaChart data={perf.data}>
+                  <AreaChart data={perf.data ?? []}>
                     <CartesianGrid vertical={false} />
                     <XAxis dataKey="date" tickFormatter={(d) => d.slice(5)} tickLine={false} axisLine={false} />
                     <YAxis tickLine={false} axisLine={false} width={36} />
