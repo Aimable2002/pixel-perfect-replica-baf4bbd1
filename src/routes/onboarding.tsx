@@ -36,7 +36,7 @@ function Onboarding() {
   const [connected, setConnected] = useState<Record<string, boolean>>({});
   const [connecting, setConnecting] = useState(false);
   const [picked, setPicked] = useState<string[]>(["More bookings"]);
-  const s = steps[step];
+  const s = steps[step]!;
   const Icon = s.icon;
 
   const connect = () => {

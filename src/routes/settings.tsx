@@ -92,7 +92,7 @@ function SettingsPage() {
         </TabsContent>
 
         <TabsContent value="team" className="mt-4 max-w-2xl space-y-4">
-          <form className="flex gap-2" onSubmit={async (e) => { e.preventDefault(); if (!invite.includes("@")) return toast.error("Enter a valid email"); await inviteTeamMember(invite); setInvite(""); qc.invalidateQueries({ queryKey: ["team"] }); toast.success("Invite sent"); }}>
+          <form className="flex gap-2" onSubmit={async (e) => { e.preventDefault(); if (!invite.includes("@")) { toast.error("Enter a valid email"); return; } await inviteTeamMember(invite); setInvite(""); qc.invalidateQueries({ queryKey: ["team"] }); toast.success("Invite sent"); }}>
             <Input value={invite} onChange={(e) => setInvite(e.target.value)} placeholder="teammate@business.com" type="email" />
             <Button>Invite</Button>
           </form>
