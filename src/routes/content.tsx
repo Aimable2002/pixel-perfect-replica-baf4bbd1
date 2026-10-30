@@ -179,7 +179,7 @@ function PostEditor({ post, onClose, onSaved }: { post: Partial<Post> | null; on
   const close = () => { setDraft({}); onClose(); };
 
   const save = async (status?: PostStatus) => {
-    if (!current.caption?.trim()) return toast.error("Add a caption first");
+    if (!current.caption?.trim()) { toast.error("Add a caption first"); return; }
     setSaving(true);
     await savePost({ ...(current as Post), status: status ?? current.status ?? "draft" });
     setSaving(false);
@@ -200,13 +200,13 @@ function PostEditor({ post, onClose, onSaved }: { post: Partial<Post> | null; on
             <div className="space-y-1.5"><Label>Caption</Label><Textarea rows={4} value={current.caption ?? ""} onChange={(e) => setDraft({ ...draft, caption: e.target.value })} /></div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5"><Label>Platform</Label>
-                <Select value={current.platform} onValueChange={(v) => setDraft({ ...draft, platform: v as Post["platform"] })}>
+                <Select value={current.platform ?? "instagram"} onValueChange={(v) => setDraft({ ...draft, platform: v as Post["platform"] })}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent><SelectItem value="instagram">Instagram</SelectItem><SelectItem value="facebook">Facebook</SelectItem></SelectContent>
                 </Select>
               </div>
               <div className="space-y-1.5"><Label>Format</Label>
-                <Select value={current.format} onValueChange={(v) => setDraft({ ...draft, format: v as Post["format"] })}>
+                <Select value={current.format ?? "feed"} onValueChange={(v) => setDraft({ ...draft, format: v as Post["format"] })}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>{["feed", "carousel", "reel", "story"].map((f) => <SelectItem key={f} value={f} className="capitalize">{f}</SelectItem>)}</SelectContent>
                 </Select>

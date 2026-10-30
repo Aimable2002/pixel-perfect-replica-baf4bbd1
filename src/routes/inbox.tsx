@@ -79,7 +79,7 @@ function InboxPage() {
                     {c.platform === "instagram" ? <Instagram className="size-3" /> : <Facebook className="size-3" />}
                     {c.channel === "dm" ? "Direct message" : `Comment · ${c.postTitle}`}
                   </p>
-                  <p className="mt-1 truncate text-xs text-muted-foreground">{c.messages[c.messages.length - 1].text}</p>
+                  <p className="mt-1 truncate text-xs text-muted-foreground">{c.messages.at(-1)?.text}</p>
                 </div>
               </button>
             ))}
