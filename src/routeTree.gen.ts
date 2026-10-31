@@ -27,6 +27,11 @@ import { Route as AuthenticatedLeadsRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedOverviewRouteImport } from './routes/_authenticated/overview'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminFleetRouteImport } from './routes/_authenticated/admin.fleet'
+import { Route as AuthenticatedAdminIntegrationsRouteImport } from './routes/_authenticated/admin.integrations'
+import { Route as AuthenticatedAdminLogsRouteImport } from './routes/_authenticated/admin.logs'
+import { Route as AuthenticatedAdminTenantsRouteImport } from './routes/_authenticated/admin.tenants'
 import { Route as AuthenticatedAdsIndexRouteImport } from './routes/_authenticated/ads.index'
 import { Route as AuthenticatedAdsIdRouteImport } from './routes/_authenticated/ads.$id'
 
@@ -119,6 +124,33 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminFleetRoute = AuthenticatedAdminFleetRouteImport.update({
+  id: '/admin/fleet',
+  path: '/admin/fleet',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminIntegrationsRoute =
+  AuthenticatedAdminIntegrationsRouteImport.update({
+    id: '/admin/integrations',
+    path: '/admin/integrations',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminLogsRoute = AuthenticatedAdminLogsRouteImport.update({
+  id: '/admin/logs',
+  path: '/admin/logs',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminTenantsRoute =
+  AuthenticatedAdminTenantsRouteImport.update({
+    id: '/admin/tenants',
+    path: '/admin/tenants',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdsIndexRoute = AuthenticatedAdsIndexRouteImport.update({
   id: '/ads/',
   path: '/ads/',
@@ -148,7 +180,12 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/overview': typeof AuthenticatedOverviewRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/admin/fleet': typeof AuthenticatedAdminFleetRoute
+  '/admin/integrations': typeof AuthenticatedAdminIntegrationsRoute
+  '/admin/logs': typeof AuthenticatedAdminLogsRoute
+  '/admin/tenants': typeof AuthenticatedAdminTenantsRoute
   '/ads/$id': typeof AuthenticatedAdsIdRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
   '/ads/': typeof AuthenticatedAdsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -169,7 +206,12 @@ export interface FileRoutesByTo {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/overview': typeof AuthenticatedOverviewRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/admin/fleet': typeof AuthenticatedAdminFleetRoute
+  '/admin/integrations': typeof AuthenticatedAdminIntegrationsRoute
+  '/admin/logs': typeof AuthenticatedAdminLogsRoute
+  '/admin/tenants': typeof AuthenticatedAdminTenantsRoute
   '/ads/$id': typeof AuthenticatedAdsIdRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
   '/ads': typeof AuthenticatedAdsIndexRoute
 }
 export interface FileRoutesById {
@@ -192,7 +234,12 @@ export interface FileRoutesById {
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/overview': typeof AuthenticatedOverviewRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/admin/fleet': typeof AuthenticatedAdminFleetRoute
+  '/_authenticated/admin/integrations': typeof AuthenticatedAdminIntegrationsRoute
+  '/_authenticated/admin/logs': typeof AuthenticatedAdminLogsRoute
+  '/_authenticated/admin/tenants': typeof AuthenticatedAdminTenantsRoute
   '/_authenticated/ads/$id': typeof AuthenticatedAdsIdRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/ads/': typeof AuthenticatedAdsIndexRoute
 }
 export interface FileRouteTypes {
@@ -215,7 +262,12 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/overview'
     | '/settings'
+    | '/admin/fleet'
+    | '/admin/integrations'
+    | '/admin/logs'
+    | '/admin/tenants'
     | '/ads/$id'
+    | '/admin/'
     | '/ads/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -236,7 +288,12 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/overview'
     | '/settings'
+    | '/admin/fleet'
+    | '/admin/integrations'
+    | '/admin/logs'
+    | '/admin/tenants'
     | '/ads/$id'
+    | '/admin'
     | '/ads'
   id:
     | '__root__'
@@ -258,7 +315,12 @@ export interface FileRouteTypes {
     | '/_authenticated/onboarding'
     | '/_authenticated/overview'
     | '/_authenticated/settings'
+    | '/_authenticated/admin/fleet'
+    | '/_authenticated/admin/integrations'
+    | '/_authenticated/admin/logs'
+    | '/_authenticated/admin/tenants'
     | '/_authenticated/ads/$id'
+    | '/_authenticated/admin/'
     | '/_authenticated/ads/'
   fileRoutesById: FileRoutesById
 }
@@ -402,6 +464,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/fleet': {
+      id: '/_authenticated/admin/fleet'
+      path: '/admin/fleet'
+      fullPath: '/admin/fleet'
+      preLoaderRoute: typeof AuthenticatedAdminFleetRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/integrations': {
+      id: '/_authenticated/admin/integrations'
+      path: '/admin/integrations'
+      fullPath: '/admin/integrations'
+      preLoaderRoute: typeof AuthenticatedAdminIntegrationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/logs': {
+      id: '/_authenticated/admin/logs'
+      path: '/admin/logs'
+      fullPath: '/admin/logs'
+      preLoaderRoute: typeof AuthenticatedAdminLogsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/tenants': {
+      id: '/_authenticated/admin/tenants'
+      path: '/admin/tenants'
+      fullPath: '/admin/tenants'
+      preLoaderRoute: typeof AuthenticatedAdminTenantsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/ads/': {
       id: '/_authenticated/ads/'
       path: '/ads'
@@ -429,7 +526,12 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedOverviewRoute: typeof AuthenticatedOverviewRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedAdminFleetRoute: typeof AuthenticatedAdminFleetRoute
+  AuthenticatedAdminIntegrationsRoute: typeof AuthenticatedAdminIntegrationsRoute
+  AuthenticatedAdminLogsRoute: typeof AuthenticatedAdminLogsRoute
+  AuthenticatedAdminTenantsRoute: typeof AuthenticatedAdminTenantsRoute
   AuthenticatedAdsIdRoute: typeof AuthenticatedAdsIdRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdsIndexRoute: typeof AuthenticatedAdsIndexRoute
 }
 
@@ -443,7 +545,12 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedOverviewRoute: AuthenticatedOverviewRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedAdminFleetRoute: AuthenticatedAdminFleetRoute,
+  AuthenticatedAdminIntegrationsRoute: AuthenticatedAdminIntegrationsRoute,
+  AuthenticatedAdminLogsRoute: AuthenticatedAdminLogsRoute,
+  AuthenticatedAdminTenantsRoute: AuthenticatedAdminTenantsRoute,
   AuthenticatedAdsIdRoute: AuthenticatedAdsIdRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdsIndexRoute: AuthenticatedAdsIndexRoute,
 }
 
