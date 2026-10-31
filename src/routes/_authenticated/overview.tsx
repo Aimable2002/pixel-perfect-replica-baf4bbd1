@@ -1,88 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { Bot, CalendarPlus, Inbox, Megaphone, MessageSquareReply, PenSquare, Target, Users } from "lucide-react";
-import { AppShell } from "@/components/kaliza/AppShell";
-import { CardSkeletons, PageHeader, StatCard, fmtTime } from "@/components/kaliza/common";
-import { Button } from "@/components/ui/button";
-import { getActivityFeed, getAgentSuggestions, getDashboardMetrics } from "@/lib/api";
-
-
-export const Route = createFileRoute("/_authenticated/overview")({
-  head: () => ({
-    meta: [
-      { title: "Overview — Kaliza" },
-      { name: "description", content: "Your business at a glance: reach, engagement, leads, ads and everything Kaliza did for you." },
-      { property: "og:title", content: "Overview — Kaliza" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:description", content: "Your business at a glance with Kaliza, the AI growth operator for Meta." },
-    ],
-  }),
-  component: Home,
-});
-
-const activityIcon = { reply: MessageSquareReply, lead: Users, ad: Megaphone, post: PenSquare, whatsapp: Bot };
-
-function Home() {
-  const metrics = useQuery({ queryKey: ["metrics"], queryFn: getDashboardMetrics });
-  const activity = useQuery({ queryKey: ["activity"], queryFn: getActivityFeed });
-  const suggestions = useQuery({ queryKey: ["suggestions"], queryFn: getAgentSuggestions });
-
-  return (
-    <AppShell>
-      <PageHeader title="Good morning, Clement" description="Here's what Kaliza handled for La Villa Bistro while you were away." />
-
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {metrics.isLoading ? <CardSkeletons /> : metrics.data?.map((m) => <StatCard key={m.id} {...m} />)}
-      </div>
-
-      <div className="mt-6 grid gap-6 lg:grid-cols-3">
-        <section className="overflow-hidden rounded-xl bg-gradient-hero p-6 text-sidebar-accent-foreground lg:col-span-2">
-          <p className="text-xs font-medium uppercase tracking-wider text-sidebar-primary">Agent highlights</p>
-          <h2 className="mt-1 text-xl font-semibold">3 things worth your attention</h2>
-          <div className="mt-5 grid gap-3 md:grid-cols-3">
-            {suggestions.isLoading ? <CardSkeletons count={3} className="h-36 bg-sidebar-accent" /> : suggestions.data?.map((s) => (
-              <div key={s.id} className="flex flex-col rounded-lg border border-sidebar-border bg-sidebar-accent/70 p-4">
-                <p className="font-medium">{s.title}</p>
-                <p className="mt-1 flex-1 text-xs leading-relaxed text-sidebar-foreground">{s.body}</p>
-                <Link to={s.id === "s2" ? "/inbox" : s.id === "s1" ? "/ads" : "/content"} className="mt-3 text-xs font-semibold text-sidebar-primary hover:underline">{s.action} →</Link>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="rounded-xl border bg-card p-6 shadow-card">
-          <h2 className="font-semibold">Quick actions</h2>
-          <div className="mt-4 grid grid-cols-2 gap-2">
-            {[
-              { to: "/content", label: "New post", icon: CalendarPlus },
-              { to: "/inbox", label: "Open inbox", icon: Inbox },
-              { to: "/ads", label: "New campaign", icon: Target },
-              { to: "/agent", label: "Ask Kaliza", icon: Bot },
-            ].map(({ to, label, icon: Icon }) => (
-              <Button key={label} asChild variant="outline" className="h-20 flex-col gap-2">
-                <Link to={to}><Icon className="size-5 text-primary" />{label}</Link>
-              </Button>
-            ))}
-          </div>
-        </section>
-      </div>
-
-      <section className="mt-6 rounded-xl border bg-card p-6 shadow-card">
-        <h2 className="font-semibold">Recent activity</h2>
-        <ul className="mt-4 divide-y">
-          {activity.isLoading ? <CardSkeletons count={4} className="my-2 h-10" /> : activity.data?.map((a) => {
-            const Icon = activityIcon[a.type];
-            return (
-              <li key={a.id} className="flex items-center gap-3 py-3">
-                <div className="grid size-8 shrink-0 place-items-center rounded-lg bg-accent text-accent-foreground"><Icon className="size-4" /></div>
-                <p className="flex-1 text-sm">{a.text}</p>
-                <span className="shrink-0 text-xs text-muted-foreground">{fmtTime(a.time)}</span>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
-    </AppShell>
-  );
-}
+import { createFileRoute,Link } from '@tanstack/react-router';
+import { useQuery } from '@tanstack/react-query';
+import { ArrowUpRight,ArrowRight,MessageSquare,CalendarDays,Target,Activity,Check } from 'lucide-react';
+import { AppShell } from '@/components/kaliza/AppShell';
+import { ActionCard } from '@/components/kaliza/ActionCard';
+import { StatCard,KalizaMark,fmtTime,CardSkeletons } from '@/components/kaliza/common';
+import { Button } from '@/components/ui/button';
+import { getDashboardMetrics,getAgentActions,getActivityFeed,getCurrentUser,getWorkspace } from '@/lib/api';
+import { pageHead } from '@/lib/page-head';
+export const Route=createFileRoute('/_authenticated/overview')({head:()=>pageHead('Command center','Your Kaliza proposals, business outcomes and recent activity in one guided command center.'),component:Overview});
+function Overview(){const {data:metrics,isLoading}=useQuery({queryKey:['metrics'],queryFn:getDashboardMetrics});const {data:actions}=useQuery({queryKey:['agent-actions'],queryFn:getAgentActions});const {data:activity}=useQuery({queryKey:['activity'],queryFn:getActivityFeed});const {data:user}=useQuery({queryKey:['current-user'],queryFn:getCurrentUser});const {data:w}=useQuery({queryKey:['workspace'],queryFn:getWorkspace});const pending=actions?.filter(a=>a.status==='pending')??[];return <AppShell><div className="mb-7 flex flex-wrap items-end justify-between gap-4"><div><p className="hud-label">Your business, in motion</p><h1 className="mt-3 text-3xl font-semibold">Let’s make your next move.</h1><p className="mt-2 text-xs text-muted-foreground">{w?.name??'La Villa Bistro'} · {user?'Provider connections awaiting setup':'Saturday, October 31 · Demo workspace'}</p></div><Button asChild variant="outline"><Link to="/agent"><KalizaMark className="size-5"/>Talk to your operator<ArrowUpRight className="size-4"/></Link></Button></div><div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{isLoading?<CardSkeletons/>:metrics?.length?metrics.map(m=><StatCard key={m.id} {...m}/>):['Reach','Engagement','Qualified leads','Ad ROAS'].map(label=><StatCard key={label} label={label} value="—"/>)}</div><div className="mt-8 grid gap-8 xl:grid-cols-[1fr_280px]"><section><div className="mb-5 flex items-center justify-between"><div><p className="hud-label">Decision desk</p><h2 className="mt-2 text-xl font-semibold">Ready for your go-ahead<span className="ml-3 text-sm font-normal text-muted-foreground">{pending.length}</span></h2></div><Activity className="size-4 text-success"/></div>{pending.length?<div className="grid gap-4 md:grid-cols-2">{pending.slice(0,4).map(a=><ActionCard key={a.id} action={a}/>)}</div>:<div className="border-y py-10"><KalizaMark/><h3 className="mt-4 font-semibold">Your operator is ready.</h3><p className="mt-2 text-sm text-muted-foreground">Start with your brand, then prepare your first content draft.</p><Button asChild className="mt-5"><Link to="/agent">Create a first draft<ArrowRight className="size-4"/></Link></Button></div>}</section><aside className="space-y-6"><div className="border-t pt-5"><p className="hud-label">Operator status</p><div className="mt-4 flex items-center gap-3"><KalizaMark className="size-10"/><div><p className="text-sm font-semibold">Kaliza</p><p className="mt-1 text-xs text-success">Ready for your direction</p></div></div><div className="mt-5 space-y-3 text-xs text-muted-foreground"><div className="flex justify-between"><span>Owner approval</span><span className="text-success">Required</span></div><div className="flex justify-between"><span>Social engagement</span><span>Reply-only</span></div><div className="flex justify-between"><span>Live providers</span><span>Not connected</span></div></div></div><div className="border-t pt-5"><p className="hud-label">Quick moves</p><div className="mt-3 space-y-1">{([{to:'/content',label:'Plan content',icon:CalendarDays},{to:'/inbox',label:'Review conversations',icon:MessageSquare},{to:'/ads',label:'Review campaigns',icon:Target}] as const).map(({to,label,icon:Icon})=><Button key={to} asChild variant="ghost" className="w-full justify-start px-0 text-xs"><Link to={to}><Icon className="size-4 text-primary"/>{label}<ArrowUpRight className="ml-auto size-3"/></Link></Button>)}</div></div><div className="border-t pt-5"><p className="hud-label">Account checklist</p><Link to="/onboarding" className="mt-3 flex items-center gap-2 text-xs"><Check className="size-4 text-primary"/>Set up your brand<ArrowRight className="ml-auto size-3"/></Link><Link to="/settings" className="mt-3 flex items-center gap-2 text-xs"><Target className="size-4 text-muted-foreground"/>Connect your accounts<ArrowRight className="ml-auto size-3"/></Link></div></aside></div><section className="mt-10 border-t pt-6"><div className="flex justify-between"><h2 className="text-lg font-semibold">The activity trail</h2><span className="hud-label">{user?'Workspace':'Demo'} / Recent</span></div><div className="mt-4 divide-y">{activity?.length?activity.map(a=><div key={a.id} className="flex items-center gap-3 py-4"><span className="size-1.5 shrink-0 rounded-full bg-success"/><p className="flex-1 text-xs">{a.text}</p><span className="text-[10px] text-muted-foreground">{fmtTime(a.time)}</span></div>):<p className="py-8 text-sm text-muted-foreground">Your workspace activity will appear here.</p>}</div></section></AppShell>;}

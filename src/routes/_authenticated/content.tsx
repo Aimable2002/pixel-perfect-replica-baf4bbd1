@@ -13,6 +13,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getMediaLibrary, getPosts, savePost, updatePostStatus, type Post, type PostStatus } from "@/lib/api";
+import { SocialPreview } from "@/components/kaliza/SocialPreview";
+import brunch from "@/assets/bistro-brunch.jpg";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/content")({
@@ -51,7 +53,7 @@ function ContentPage() {
   return (
     <AppShell>
       <PageHeader title="Content" description="Everything Kaliza is creating, scheduling and publishing."
-        actions={<Button onClick={() => setEditing({ platform: "instagram", format: "feed", status: "draft", date: new Date().toISOString(), image: "https://picsum.photos/seed/new/600/600", caption: "" })}><Plus className="size-4" /> New post</Button>} />
+        actions={<Button onClick={() => setEditing({ platform: "instagram", format: "feed", status: "draft", date: new Date().toISOString(), image: brunch, caption: "" })}><Plus className="size-4" /> New post</Button>} />
 
       <Tabs defaultValue="calendar">
         <TabsList>
@@ -88,6 +90,7 @@ function ContentPage() {
         </TabsContent>
 
         <TabsContent value="approval" className="mt-4 space-y-3">
+          {pending.length > 0 && <Button onClick={async () => { for (const p of pending) await updatePostStatus(p.id, "scheduled"); qc.invalidateQueries({queryKey:["posts"]}); toast.success("All drafts scheduled in workspace"); }}><Check className="size-4"/>Approve all {pending.length}</Button>}
           {posts.isLoading ? <CardSkeletons count={2} className="h-32" /> : pending.length === 0 ? (
             <EmptyState icon={<Check className="size-5" />} title="All caught up" body="Nothing waiting for approval. Kaliza will notify you on WhatsApp when new drafts are ready." />
           ) : pending.map((p) => (
@@ -156,11 +159,11 @@ function Calendar({ posts, onOpen }: { posts: Post[]; onOpen: (p: Post) => void 
         {days.map(({ d, inMonth }) => {
           const items = posts.filter((p) => new Date(p.date).toDateString() === d.toDateString());
           return (
-            <div key={d.toISOString()} className={cn("min-h-24 border-b border-r p-1.5", !inMonth && "bg-muted/40")}>
+            <div key={d.toISOString()} onDragOver={e=>e.preventDefault()} onDrop={async e=>{e.preventDefault();const id=e.dataTransfer.getData("text/plain");const post=posts.find(p=>p.id===id);if(post){await savePost({...post,date:d.toISOString()});onOpen({...post,date:d.toISOString()});}}} className={cn("min-h-24 border-b border-r p-1.5", !inMonth && "bg-muted/40")}>
               <span className={cn("inline-grid size-6 place-items-center rounded-full text-xs", d.toDateString() === today ? "bg-primary text-primary-foreground" : inMonth ? "" : "text-muted-foreground")}>{d.getDate()}</span>
               <div className="mt-1 space-y-1">
                 {items.map((p) => (
-                  <button key={p.id} onClick={() => onOpen(p)} className={cn("block w-full truncate rounded px-1.5 py-0.5 text-left text-[11px]",
+                  <button key={p.id} draggable onDragStart={e=>e.dataTransfer.setData("text/plain",p.id)} onClick={() => onOpen(p)} className={cn("block w-full truncate rounded px-1.5 py-0.5 text-left text-[11px]",
                     p.status === "published" ? "bg-success/15 text-success" : p.status === "scheduled" ? "bg-primary/10 text-primary" : p.status === "pending" ? "bg-warning/20 text-warning-foreground" : "bg-muted text-muted-foreground")}>
                     {p.caption}
                   </button>
@@ -177,6 +180,7 @@ function Calendar({ posts, onOpen }: { posts: Post[]; onOpen: (p: Post) => void 
 function PostEditor({ post, onClose, onSaved }: { post: Partial<Post> | null; onClose: () => void; onSaved: () => void }) {
   const [draft, setDraft] = useState<Partial<Post>>({});
   const [saving, setSaving] = useState(false);
+  const {data:mediaItems} = useQuery({queryKey:["media"],queryFn:getMediaLibrary});
   const current = { ...post, ...draft };
   const close = () => { setDraft({}); onClose(); };
 
@@ -192,12 +196,10 @@ function PostEditor({ post, onClose, onSaved }: { post: Partial<Post> | null; on
 
   return (
     <Dialog open={!!post} onOpenChange={(o) => !o && close()}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-3xl max-h-[90dvh] overflow-y-auto">
         <DialogHeader><DialogTitle>{post?.id ? "Edit post" : "Create post"}</DialogTitle></DialogHeader>
-        <div className="grid gap-5 sm:grid-cols-[180px_1fr]">
-          <div className="relative overflow-hidden rounded-lg border bg-muted">
-            {current.image ? <img src={current.image} alt="" className="aspect-square w-full object-cover" /> : <ImageIcon className="m-auto size-8" />}
-          </div>
+        <div className="grid gap-5 sm:grid-cols-[270px_1fr]">
+          <SocialPreview post={current}/>
           <div className="space-y-3">
             <div className="space-y-1.5"><Label>Caption</Label><Textarea rows={4} value={current.caption ?? ""} onChange={(e) => setDraft({ ...draft, caption: e.target.value })} /></div>
             <div className="grid grid-cols-2 gap-3">
@@ -214,8 +216,9 @@ function PostEditor({ post, onClose, onSaved }: { post: Partial<Post> | null; on
                 </Select>
               </div>
             </div>
+            <div className="space-y-1.5"><Label>Media</Label><div className="flex gap-2 overflow-x-auto">{mediaItems?.map(item => <Button key={item.id} variant="outline" size="icon" className="size-14 shrink-0 overflow-hidden p-0" aria-label={`Select ${item.name}`} onClick={()=>setDraft({...draft,image:item.url})}><img src={item.url} alt={item.name} className="size-full object-cover"/></Button>)}</div></div>
             <div className="space-y-1.5"><Label>Publish at</Label>
-              <Input type="datetime-local" value={current.date ? new Date(current.date).toISOString().slice(0, 16) : ""} onChange={(e) => setDraft({ ...draft, date: new Date(e.target.value).toISOString() })} />
+              <Input type="datetime-local" value={current.date ? new Date(current.date).toISOString().slice(0, 16) : ""} onChange={(e) => { if(e.target.value) setDraft({ ...draft, date: new Date(e.target.value).toISOString() }); }} />
             </div>
           </div>
         </div>
