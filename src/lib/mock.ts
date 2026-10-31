@@ -1,4 +1,5 @@
 // All mock data for Kaliza. Delete this file once api.ts talks to the real backend.
+import brunch from "@/assets/bistro-brunch.jpg";
 import type {
   ActivityItem, AgentMessage, AgentSuggestion, AnalyticsPoint, Campaign, Conversation,
   DashboardMetric, Lead, MediaItem, Post, TeamMember, ConnectedAccount,
@@ -33,7 +34,7 @@ export const mockSuggestions: AgentSuggestion[] = [
   { id: "s3", title: "Content gap next Thursday", body: "No post scheduled. I drafted a carousel on your new cocktail list.", action: "Review draft" },
 ];
 
-const img = (seed: string) => `https://picsum.photos/seed/${seed}/600/600`;
+const img = (_seed: string) => brunch;
 
 export const mockPosts: Post[] = [
   { id: "p1", caption: "Summer menu is here 🍋 Fresh, bright and made for long evenings.", platform: "instagram", format: "carousel", status: "published", date: day(-3, 18), image: img("lemon"), likes: 1240, comments: 86 },
@@ -140,3 +141,12 @@ export const mockAccounts: ConnectedAccount[] = [
   { id: "meta_ads", name: "Meta Ad Account", handle: "act_2048193", connected: true },
   { id: "whatsapp", name: "WhatsApp", handle: "+250 788 000 000", connected: false },
 ];
+
+export const mockActions: import('./types').AgentAction[] = [
+ { id: 'ap1', kind: 'post', title: 'Weekend brunch campaign', body: 'Slow mornings. Fresh ingredients. Your table is waiting. Reserve this weekend at La Villa Bistro.', targetId: 'p4', image: brunch, status: 'pending' },
+ { id: 'ab1', kind: 'budget', title: 'Scale your strongest campaign', body: 'Private Events leads returns 5.6× ROAS. Proposed daily budget: $45, up from $35. Owner approval required.', targetId: 'cp3', amount: 45, status: 'pending' },
+ { id: 'ar1', kind: 'reply', title: 'Aline · private catering', body: "Thanks Aline! I’ll ask our owner to confirm availability and a quote for your 80 guests. Could you share your preferred menu?", targetId: 'c1', status: 'pending' }
+];
+export const mockUsage = { voice: 182, adSpend: 4200, events: 12480 };
+export const mockTenants = [{id:'demo-villa',name:'La Villa Bistro',plan:'Pro',status:'Trial',paused:false},{id:'demo-apex',name:'Apex Fitness',plan:'Scale',status:'Active',paused:false},{id:'demo-lumina',name:'Lumina Goods',plan:'Starter',status:'Active',paused:true}];
+export const mockJobs = [{name:'Weekend content plan',tenant:'La Villa Bistro',status:'Awaiting approval',progress:100},{name:'Ad performance review',tenant:'Apex Fitness',status:'Completed',progress:100},{name:'Lead qualification',tenant:'Lumina Goods',status:'Paused',progress:32}];

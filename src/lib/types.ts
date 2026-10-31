@@ -12,6 +12,8 @@ export interface Campaign { id: string; name: string; objective: string; status:
 export type LeadStatus = "new" | "contacted" | "hot" | "won" | "lost";
 export interface Lead { id: string; name: string; source: string; interest: string; value: number; status: LeadStatus; lastContact: string }
 export interface AnalyticsPoint { date: string; reach: number; engagement: number; leads: number; spend: number; results: number }
-export interface AgentMessage { id: string; role: "user" | "agent"; text: string; time: string }
+export interface AgentMessage { id: string; role: "user" | "agent"; text: string; time: string; actionIds?: string[] }
 export interface TeamMember { id: string; name: string; email: string; role: "Owner" | "Editor" | "Viewer" }
 export interface ConnectedAccount { id: string; name: string; handle: string; connected: boolean }
+
+export interface AgentAction { id: string; kind: 'post' | 'budget' | 'reply'; title: string; body: string; targetId: string; status: 'pending' | 'approved' | 'rejected'; amount?: number; image?: string }

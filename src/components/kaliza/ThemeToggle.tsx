@@ -1,0 +1,4 @@
+import { useEffect, useState } from 'react';
+import { Moon, Sun } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+export function ThemeToggle() { const [dark, setDark] = useState(false); useEffect(() => { const value = localStorage.getItem('kaliza-theme'); const next = value ? value === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; setDark(next); document.documentElement.classList.toggle('dark', next); }, []); return <Button variant="ghost" size="icon" title={dark ? 'Light theme' : 'Dark theme'} aria-label="Toggle theme" onClick={() => { const next = !dark; setDark(next); document.documentElement.classList.toggle('dark', next); localStorage.setItem('kaliza-theme', next ? 'dark' : 'light'); }}>{dark ? <Sun className="size-4"/> : <Moon className="size-4"/>}</Button>; }
