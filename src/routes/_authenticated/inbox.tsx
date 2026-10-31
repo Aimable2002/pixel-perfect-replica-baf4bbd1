@@ -11,6 +11,7 @@ import { getConversations, sendReply, updateConversation } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/inbox")({
+  validateSearch: (search: Record<string, unknown>) => ({ conversation: typeof search.conversation === "string" ? search.conversation : undefined }),
   head: () => ({
     meta: [
       { title: "Inbox — Kaliza" },
@@ -30,7 +31,8 @@ function InboxPage() {
   const qc = useQueryClient();
   const { data, isLoading } = useQuery({ queryKey: ["conversations"], queryFn: getConversations });
   const [filter, setFilter] = useState<Filter>("all");
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const {conversation} = Route.useSearch();
+  const [activeId, setActiveId] = useState<string | null>(conversation ?? null);
   const [reply, setReply] = useState("");
   const [sending, setSending] = useState(false);
 
@@ -113,7 +115,7 @@ function InboxPage() {
                 <div className="mx-4 mb-3 rounded-xl border border-primary/30 bg-accent p-3">
                   <div className="flex items-center gap-2 text-xs font-medium text-accent-foreground"><KalizaMark className="size-5" /> Suggested reply</div>
                   <p className="mt-2 text-sm">{active.suggestedReply}</p>
-                  <Button size="sm" variant="secondary" className="mt-2" onClick={() => setReply(active.suggestedReply!)}><Wand2 className="size-3.5" /> Use this</Button>
+                  <Button size="sm" variant="secondary" className="mt-2" onClick={() => setReply(active.suggestedReply ?? "")}><Wand2 className="size-3.5" /> Use this</Button>
                 </div>
               )}
               <div className="flex gap-2 border-t p-3">

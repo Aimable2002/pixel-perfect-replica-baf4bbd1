@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
+import { AdHierarchy } from "@/components/kaliza/AdHierarchy";
 import { AppShell } from "@/components/kaliza/AppShell";
 import { CampaignDialog } from "@/components/kaliza/CampaignDialog";
 import { CardSkeletons, EmptyState, PageHeader, StatCard, StatusBadge, money } from "@/components/kaliza/common";
@@ -65,6 +66,7 @@ function AdsPage() {
           </Table>
         )}
       </div>
+      <AdHierarchy/>
       <CampaignDialog open={creating} onClose={() => setCreating(false)} onSaved={() => qc.invalidateQueries({ queryKey: ["campaigns"] })} />
     </AppShell>
   );

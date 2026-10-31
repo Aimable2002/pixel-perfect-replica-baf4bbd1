@@ -1,100 +1,13 @@
-import { useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Check, Facebook, Instagram, Megaphone, MessageCircle, Loader2 } from "lucide-react";
-import { KalizaMark } from "@/components/kaliza/common";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Progress } from "@/components/ui/progress";
-import { cn } from "@/lib/utils";
-
-export const Route = createFileRoute("/_authenticated/onboarding")({
-  head: () => ({
-    meta: [
-      { title: "Get started — Kaliza" },
-      { name: "description", content: "Connect Instagram, Facebook, Meta Ads and WhatsApp, then tell Kaliza about your brand." },
-      { property: "og:title", content: "Get started — Kaliza" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:description", content: "Connect your accounts and set up your brand in minutes." },
-    ],
-  }),
-  component: Onboarding,
-});
-
-const steps = [
-  { id: "instagram", title: "Connect Instagram", body: "Kaliza publishes posts and replies to comments & DMs.", icon: Instagram },
-  { id: "facebook", title: "Connect Facebook Page", body: "Manage your Page posts, comments and Messenger.", icon: Facebook },
-  { id: "ads", title: "Connect Meta Ad Account", body: "Let Kaliza monitor and optimize your campaigns.", icon: Megaphone },
-  { id: "whatsapp", title: "Connect WhatsApp", body: "Your daily control center — text or voice Kaliza.", icon: MessageCircle },
-  { id: "brand", title: "Brand & goals", body: "Help Kaliza sound like you.", icon: Check },
-];
-const goals = ["More bookings", "More followers", "More leads", "Lower ad costs", "Faster replies"];
-
-function Onboarding() {
-  const nav = useNavigate();
-  const [step, setStep] = useState(0);
-  const [connected, setConnected] = useState<Record<string, boolean>>({});
-  const [connecting, setConnecting] = useState(false);
-  const [picked, setPicked] = useState<string[]>(["More bookings"]);
-  const s = steps[step]!;
-  const Icon = s.icon;
-
-  const connect = () => {
-    setConnecting(true);
-    setTimeout(() => { setConnected((c) => ({ ...c, [s.id]: true })); setConnecting(false); }, 900);
-  };
-
-  return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-xl px-6 py-10">
-        <div className="mb-8 flex items-center gap-2.5"><KalizaMark /><span className="font-display text-lg font-semibold">Kaliza</span></div>
-        <p className="text-xs font-medium text-muted-foreground">Step {step + 1} of {steps.length}</p>
-        <Progress value={((step + 1) / steps.length) * 100} className="mt-2" />
-
-        <div className="mt-8 rounded-2xl border bg-card p-8 shadow-card">
-          <div className="grid size-12 place-items-center rounded-xl bg-accent text-accent-foreground"><Icon className="size-6" /></div>
-          <h1 className="mt-4 text-2xl font-semibold">{s.title}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">{s.body}</p>
-
-          {s.id !== "brand" ? (
-            <div className="mt-6">
-              {connected[s.id] ? (
-                <div className="flex items-center gap-2 rounded-lg bg-success/10 px-4 py-3 text-sm font-medium text-success"><Check className="size-4" /> Connected</div>
-              ) : (
-                <Button onClick={connect} disabled={connecting} className="w-full">
-                  {connecting && <Loader2 className="size-4 animate-spin" />} {connecting ? "Connecting…" : s.title}
-                </Button>
-              )}
-            </div>
-          ) : (
-            <div className="mt-6 space-y-4">
-              <div className="space-y-2"><Label>What do you sell?</Label><Input placeholder="Mediterranean bistro, brunch & private events" /></div>
-              <div className="space-y-2"><Label>Brand voice</Label><Textarea placeholder="Warm, a little playful, never pushy. Use emojis sparingly." /></div>
-              <div className="space-y-2">
-                <Label>Top goals</Label>
-                <div className="flex flex-wrap gap-2">
-                  {goals.map((g) => (
-                    <button key={g} type="button" onClick={() => setPicked((p) => p.includes(g) ? p.filter((x) => x !== g) : [...p, g])}
-                      className={cn("rounded-full border px-3 py-1.5 text-xs", picked.includes(g) ? "border-primary bg-primary text-primary-foreground" : "hover:border-primary")}>{g}</button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div className="mt-6 flex justify-between">
-          <Button variant="ghost" disabled={step === 0} onClick={() => setStep(step - 1)}>Back</Button>
-          <div className="flex gap-2">
-            {s.id !== "brand" && !connected[s.id] && <Button variant="outline" onClick={() => setStep(step + 1)}>Skip</Button>}
-            <Button onClick={() => (step === steps.length - 1 ? nav({ to: "/" }) : setStep(step + 1))} disabled={s.id !== "brand" && !connected[s.id]}>
-              {step === steps.length - 1 ? "Finish setup" : "Continue"}
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+import {useState} from 'react';
+import {createFileRoute,useNavigate} from '@tanstack/react-router';
+import {Instagram,Facebook,Megaphone,MessageCircle,ArrowRight,Check} from 'lucide-react';
+import {KalizaMark} from '@/components/kaliza/common';
+import {ThemeToggle} from '@/components/kaliza/ThemeToggle';
+import {Button} from '@/components/ui/button';
+import {Input} from '@/components/ui/input';
+import {Textarea} from '@/components/ui/textarea';
+import {Label} from '@/components/ui/label';
+import {saveBrand} from '@/lib/api';
+import {pageHead} from '@/lib/page-head';
+export const Route=createFileRoute('/_authenticated/onboarding')({head:()=>pageHead('Set up your operator','Set up your brand, goals and owner approval preferences for Kaliza.'),component:Onboarding});
+function Onboarding(){const nav=useNavigate();const [step,setStep]=useState(0);const [name,setName]=useState('');const [product,setProduct]=useState('');const [voice,setVoice]=useState('');const [goals,setGoals]=useState<string[]>([]);const [busy,setBusy]=useState(false);const [error,setError]=useState('');return <div className="min-h-screen bg-background"><header className="mx-auto flex max-w-5xl items-center justify-between px-6 py-7"><div className="flex items-center gap-2 font-display text-xl"><KalizaMark/>Kaliza</div><ThemeToggle/></header><main className="mx-auto max-w-2xl px-6 py-8"><div className="mb-9 flex gap-4">{['Your brand','Your accounts','Your control'].map((title,i)=><div key={title} className="flex-1"><div className={`h-0.5 ${step>=i?'bg-primary':'bg-border'}`}/><p className="mt-3 text-[10px] text-muted-foreground">0{i+1} / {title}</p></div>)}</div><p className="hud-label">Make Kaliza yours</p><h1 className="mt-3 text-3xl font-semibold">{step===0?'Tell us about your business.':step===1?'Bring your accounts together.':'You’re in control.'}</h1><div className="mt-8 space-y-5">{step===0?<><div><Label htmlFor="business">Business name</Label><Input id="business" className="mt-2" value={name} onChange={e=>setName(e.target.value)} placeholder="Your business"/></div><div><Label htmlFor="product">What do you offer?</Label><Input id="product" className="mt-2" value={product} onChange={e=>setProduct(e.target.value)} placeholder="Products, services and the people you serve"/></div><div><Label htmlFor="voice">Brand voice</Label><Textarea id="voice" className="mt-2" value={voice} onChange={e=>setVoice(e.target.value)} placeholder="How should your business sound?"/></div><Label>Top goals</Label><div className="flex flex-wrap gap-2">{['More bookings','Qualified leads','Faster replies','Better ad results'].map(g=><Button key={g} variant={goals.includes(g)?'default':'outline'} size="sm" onClick={()=>setGoals(old=>old.includes(g)?old.filter(x=>x!==g):[...old,g])}>{g}</Button>)}</div></>:step===1?<><p className="text-sm text-muted-foreground">Live connections require provider activation. You can finish your brand setup now and connect accounts when ready.</p>{[{name:'Instagram',icon:Instagram},{name:'Facebook Page',icon:Facebook},{name:'Meta Ad Account',icon:Megaphone},{name:'WhatsApp',icon:MessageCircle}].map(({name,icon:Icon})=><div key={name} className="flex items-center gap-3 border-b py-4"><Icon className="size-5 text-primary"/><p className="flex-1 text-sm">{name}</p><span className="text-xs text-muted-foreground">Awaiting setup</span></div>)}</>:<><div className="flex gap-3 border-y py-6"><Check className="size-5 text-success"/><div><h2 className="font-semibold">Review before delivery</h2><p className="mt-2 text-sm text-muted-foreground">Posts and ad proposals need your approval. Replies are only to customers who contacted you first.</p></div></div><div className="border-b py-5"><p className="text-sm">Account settings, permissions and billing stay with you.</p></div></>}</div>{error&&<p className="mt-4 text-sm text-destructive">{error}</p>}<div className="mt-10 flex justify-between"><Button variant="ghost" disabled={step===0} onClick={()=>setStep(step-1)}>Back</Button><Button disabled={busy||(step===0&&!name.trim())} onClick={async()=>{if(step<2){setStep(step+1);return;}setBusy(true);try{await saveBrand(name,{product,voice,goals,approvalRequired:true});nav({to:'/overview'});}catch(e){setError(e instanceof Error?e.message:'Could not save setup');}finally{setBusy(false);}}}>{step===2?'Open my workspace':'Continue'}<ArrowRight className="size-4"/></Button></div></main></div>;}

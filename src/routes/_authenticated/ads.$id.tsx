@@ -43,7 +43,7 @@ function CampaignDetail() {
             actions={<>
               <StatusBadge status={c.data.status} />
               <Button variant="outline" size="sm" onClick={() => setEditing(true)}><Pencil className="size-4" /> Edit</Button>
-              <Button size="sm" onClick={async () => { await updateCampaignStatus(id, c.data!.status === "active" ? "paused" : "active"); refresh(); }}>
+              <Button size="sm" onClick={async () => { if (!c.data) return; await updateCampaignStatus(id, c.data.status === "active" ? "paused" : "active"); refresh(); }}>
                 {c.data.status === "active" ? <><Pause className="size-4" /> Pause</> : <><Play className="size-4" /> Activate</>}
               </Button>
             </>} />
