@@ -20,6 +20,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as AuthenticatedAgentRouteImport } from './routes/_authenticated/agent'
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
+import { Route as AuthenticatedBillingRouteImport } from './routes/_authenticated/billing'
 import { Route as AuthenticatedContentRouteImport } from './routes/_authenticated/content'
 import { Route as AuthenticatedInboxRouteImport } from './routes/_authenticated/inbox'
 import { Route as AuthenticatedLeadsRouteImport } from './routes/_authenticated/leads'
@@ -83,6 +84,11 @@ const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
   path: '/analytics',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedBillingRoute = AuthenticatedBillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedContentRoute = AuthenticatedContentRouteImport.update({
   id: '/content',
   path: '/content',
@@ -135,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/agent': typeof AuthenticatedAgentRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/billing': typeof AuthenticatedBillingRoute
   '/content': typeof AuthenticatedContentRoute
   '/inbox': typeof AuthenticatedInboxRoute
   '/leads': typeof AuthenticatedLeadsRoute
@@ -155,6 +162,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/agent': typeof AuthenticatedAgentRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/billing': typeof AuthenticatedBillingRoute
   '/content': typeof AuthenticatedContentRoute
   '/inbox': typeof AuthenticatedInboxRoute
   '/leads': typeof AuthenticatedLeadsRoute
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/_authenticated/agent': typeof AuthenticatedAgentRoute
   '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
+  '/_authenticated/billing': typeof AuthenticatedBillingRoute
   '/_authenticated/content': typeof AuthenticatedContentRoute
   '/_authenticated/inbox': typeof AuthenticatedInboxRoute
   '/_authenticated/leads': typeof AuthenticatedLeadsRoute
@@ -199,6 +208,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/agent'
     | '/analytics'
+    | '/billing'
     | '/content'
     | '/inbox'
     | '/leads'
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/agent'
     | '/analytics'
+    | '/billing'
     | '/content'
     | '/inbox'
     | '/leads'
@@ -240,6 +251,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/_authenticated/agent'
     | '/_authenticated/analytics'
+    | '/_authenticated/billing'
     | '/_authenticated/content'
     | '/_authenticated/inbox'
     | '/_authenticated/leads'
@@ -341,6 +353,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/billing': {
+      id: '/_authenticated/billing'
+      path: '/billing'
+      fullPath: '/billing'
+      preLoaderRoute: typeof AuthenticatedBillingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/content': {
       id: '/_authenticated/content'
       path: '/content'
@@ -403,6 +422,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAgentRoute: typeof AuthenticatedAgentRoute
   AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
+  AuthenticatedBillingRoute: typeof AuthenticatedBillingRoute
   AuthenticatedContentRoute: typeof AuthenticatedContentRoute
   AuthenticatedInboxRoute: typeof AuthenticatedInboxRoute
   AuthenticatedLeadsRoute: typeof AuthenticatedLeadsRoute
@@ -416,6 +436,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAgentRoute: AuthenticatedAgentRoute,
   AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
+  AuthenticatedBillingRoute: AuthenticatedBillingRoute,
   AuthenticatedContentRoute: AuthenticatedContentRoute,
   AuthenticatedInboxRoute: AuthenticatedInboxRoute,
   AuthenticatedLeadsRoute: AuthenticatedLeadsRoute,
