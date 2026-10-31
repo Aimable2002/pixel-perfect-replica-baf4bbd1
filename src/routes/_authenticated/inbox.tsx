@@ -11,7 +11,7 @@ import { getConversations, sendReply, updateConversation } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/inbox")({
-  validateSearch: (search: Record<string, unknown>) => ({ conversation: typeof search.conversation === "string" ? search.conversation : undefined }),
+  validateSearch: (search: Record<string, unknown>) => ({ conversation: typeof search['conversation'] === "string" ? search['conversation'] : undefined }),
   head: () => ({
     meta: [
       { title: "Inbox — Kaliza" },
