@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PresetField } from "./PresetField";
 import { saveCampaign, type Campaign } from "@/lib/api";
 
 export function CampaignDialog({ open, campaign, onClose, onSaved }: { open: boolean; campaign?: Campaign | null; onClose: () => void; onSaved: () => void }) {
@@ -40,7 +41,7 @@ export function CampaignDialog({ open, campaign, onClose, onSaved }: { open: boo
               <SelectContent>{["Conversions", "Leads", "Reach", "Traffic", "Engagement"].map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent>
             </Select>
           </div>
-          <div className="space-y-1.5"><Label>Daily budget (USD)</Label><Input type="number" min={1} value={budget} onChange={(e) => setBudget(Number(e.target.value))} /></div>
+          <PresetField id="daily-budget" label="Daily budget (USD)" numeric value={String(budget)} onChange={v=>setBudget(Number(v))} options={[10,20,30,50,100].map(v=>({value:String(v),label:`$${v} per day`}))}/>
           <p className="rounded-lg bg-accent p-3 text-xs text-accent-foreground">Kaliza will suggest audiences and creatives from your best-performing posts once saved.</p>
         </div>
         <DialogFooter><Button variant="ghost" onClick={onClose}>Cancel</Button><Button onClick={save} disabled={saving}>{saving ? "Saving…" : "Save"}</Button></DialogFooter>
