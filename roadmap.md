@@ -1,0 +1,11 @@
+# Kaliza rebuild
+- [ ] Public landing, pricing, features and recovery pages
+- [ ] Adaptive HUD shell and guided overview
+- [ ] Inline agent action engine and WhatsApp simulator
+- [ ] Content device previews and media selection
+- [ ] Ad hierarchy and attribution views
+- [ ] Lead Kanban and conversation drawers
+- [ ] Billing and administration pages
+- [ ] Real authentication and owner-scoped saved workspace
+- [ ] Verify routes, action flow, themes and mobile layouts
+- [ ] External Meta/WhatsApp/voice/payment activation (blocked: provider accounts, credentials and approval)
