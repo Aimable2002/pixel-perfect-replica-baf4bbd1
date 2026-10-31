@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1793437228211,
+      "tag": "0000_kaliza_workspace_and_administration",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793437598550,
+      "tag": "0001_protect_agent_pause_and_workspace_identity",
+      "breakpoints": true
+    }
+  ]
+}

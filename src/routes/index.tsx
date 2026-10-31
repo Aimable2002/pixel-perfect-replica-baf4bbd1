@@ -1,86 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { Bot, CalendarPlus, Inbox, Megaphone, MessageSquareReply, PenSquare, Target, Users } from "lucide-react";
-import { AppShell } from "@/components/kaliza/AppShell";
-import { CardSkeletons, PageHeader, StatCard, fmtTime } from "@/components/kaliza/common";
-import { Button } from "@/components/ui/button";
-import { getActivityFeed, getAgentSuggestions, getDashboardMetrics } from "@/lib/api";
-
-
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Overview — Kaliza" },
-      { name: "description", content: "Your business at a glance: reach, engagement, leads, ads and everything Kaliza did for you." },
-      { property: "og:title", content: "Overview — Kaliza" },
-      { property: "og:description", content: "Your business at a glance with Kaliza, the AI growth operator for Meta." },
-    ],
-  }),
-  component: Home,
-});
-
-const activityIcon = { reply: MessageSquareReply, lead: Users, ad: Megaphone, post: PenSquare, whatsapp: Bot };
-
-function Home() {
-  const metrics = useQuery({ queryKey: ["metrics"], queryFn: getDashboardMetrics });
-  const activity = useQuery({ queryKey: ["activity"], queryFn: getActivityFeed });
-  const suggestions = useQuery({ queryKey: ["suggestions"], queryFn: getAgentSuggestions });
-
-  return (
-    <AppShell>
-      <PageHeader title="Good morning, Clement" description="Here's what Kaliza handled for La Villa Bistro while you were away." />
-
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {metrics.isLoading ? <CardSkeletons /> : metrics.data?.map((m) => <StatCard key={m.id} {...m} />)}
-      </div>
-
-      <div className="mt-6 grid gap-6 lg:grid-cols-3">
-        <section className="overflow-hidden rounded-xl bg-gradient-hero p-6 text-sidebar-accent-foreground lg:col-span-2">
-          <p className="text-xs font-medium uppercase tracking-wider text-sidebar-primary">Agent highlights</p>
-          <h2 className="mt-1 text-xl font-semibold">3 things worth your attention</h2>
-          <div className="mt-5 grid gap-3 md:grid-cols-3">
-            {suggestions.isLoading ? <CardSkeletons count={3} className="h-36 bg-sidebar-accent" /> : suggestions.data?.map((s) => (
-              <div key={s.id} className="flex flex-col rounded-lg border border-sidebar-border bg-sidebar-accent/70 p-4">
-                <p className="font-medium">{s.title}</p>
-                <p className="mt-1 flex-1 text-xs leading-relaxed text-sidebar-foreground">{s.body}</p>
-                <Link to={s.id === "s2" ? "/inbox" : s.id === "s1" ? "/ads" : "/content"} className="mt-3 text-xs font-semibold text-sidebar-primary hover:underline">{s.action} →</Link>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="rounded-xl border bg-card p-6 shadow-card">
-          <h2 className="font-semibold">Quick actions</h2>
-          <div className="mt-4 grid grid-cols-2 gap-2">
-            {[
-              { to: "/content", label: "New post", icon: CalendarPlus },
-              { to: "/inbox", label: "Open inbox", icon: Inbox },
-              { to: "/ads", label: "New campaign", icon: Target },
-              { to: "/agent", label: "Ask Kaliza", icon: Bot },
-            ].map(({ to, label, icon: Icon }) => (
-              <Button key={label} asChild variant="outline" className="h-20 flex-col gap-2">
-                <Link to={to}><Icon className="size-5 text-primary" />{label}</Link>
-              </Button>
-            ))}
-          </div>
-        </section>
-      </div>
-
-      <section className="mt-6 rounded-xl border bg-card p-6 shadow-card">
-        <h2 className="font-semibold">Recent activity</h2>
-        <ul className="mt-4 divide-y">
-          {activity.isLoading ? <CardSkeletons count={4} className="my-2 h-10" /> : activity.data?.map((a) => {
-            const Icon = activityIcon[a.type];
-            return (
-              <li key={a.id} className="flex items-center gap-3 py-3">
-                <div className="grid size-8 shrink-0 place-items-center rounded-lg bg-accent text-accent-foreground"><Icon className="size-4" /></div>
-                <p className="flex-1 text-sm">{a.text}</p>
-                <span className="shrink-0 text-xs text-muted-foreground">{fmtTime(a.time)}</span>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
-    </AppShell>
-  );
-}
+import { useState } from 'react';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { ArrowUpRight, ArrowRight, Play, Instagram, Facebook, MessageCircle, Target, Check, ChevronDown } from 'lucide-react';
+import { PublicShell } from '@/components/kaliza/PublicShell';
+import { WhatsAppDemo } from '@/components/kaliza/WhatsAppDemo';
+import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
+import { pageHead } from '@/lib/page-head';
+import cover from '@/assets/kaliza-cover.jpg';
+export const Route=createFileRoute('/')({head:()=>pageHead('Your autonomous brand operator','Kaliza brings Instagram, Facebook, Meta Ads and your customer conversations together. Steer your agent from WhatsApp.'),component:Landing});
+function Landing(){const navigate=useNavigate();const [hours,setHours]=useState([20]);return <PublicShell><section className="relative overflow-hidden bg-cover text-cover-foreground"><img src={cover} alt="Kaliza titanium brand sculpture" width={1920} height={1024} className="absolute inset-0 size-full object-cover object-right"/><div className="relative mx-auto max-w-7xl px-6 pb-16 pt-16 md:pb-24 md:pt-24"><p className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[.15em] text-cover-muted"><span className="size-1.5 rounded-full bg-success"/>The autonomous brand operator</p><h1 className="mt-7 font-display text-6xl font-semibold md:text-8xl">Kaliza.</h1><p className="mt-5 max-w-md text-2xl font-medium leading-snug md:text-3xl">Your brand moves forward.<br/>Even when you step away.</p><p className="mt-5 max-w-sm text-sm leading-relaxed text-cover-muted">Content. Conversations. Campaigns. An agent for your Instagram and Facebook, guided by a message from you.</p><div className="mt-8 flex flex-wrap gap-3"><Button asChild className="h-12"><Link to="/signup">Meet your operator<ArrowUpRight className="size-4"/></Link></Button><Button className="h-12 border-cover-muted/30 bg-cover/60 text-cover-foreground hover:bg-cover/90" variant="outline" onClick={()=>{sessionStorage.setItem('kaliza-demo','true');navigate({to:'/overview'});}}><Play className="size-4"/>Explore the workspace</Button></div><div className="mt-10 flex items-center gap-5 text-xs text-cover-muted"><span className="flex items-center gap-1.5"><Instagram className="size-4"/>Instagram</span><span className="flex items-center gap-1.5"><Facebook className="size-4"/>Facebook</span><span className="flex items-center gap-1.5"><MessageCircle className="size-4"/>WhatsApp</span></div></div></section><section className="mx-auto grid max-w-7xl gap-12 px-6 py-16 md:grid-cols-2 md:items-center"><div><p className="hud-label">01 / A conversation, not another to-do list</p><h2 className="mt-5 max-w-lg text-3xl font-semibold leading-tight md:text-4xl">Say what you need.<br/>See the work. Stay in control.</h2><p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground">From your next post to a promising customer conversation, Kaliza brings the result to you. Review drafts and approve changes without the scavenger hunt.</p><div className="mt-8 space-y-5">{['One agent, on WhatsApp and in your workspace','Drafts and proposals with your approval built in','Customer replies only after they reach out'].map((text,i)=><div key={text} className="flex items-center gap-3 border-b pb-4 text-sm"><span className="font-mono text-xs text-primary">0{i+1}</span>{text}<Check className="ml-auto size-4 text-success"/></div>)}</div><Button asChild variant="ghost" className="mt-5 px-0"><Link to="/features">Explore the product<ArrowRight className="size-4"/></Link></Button></div><WhatsAppDemo/></section><section className="border-y bg-muted/35"><div className="mx-auto max-w-7xl px-6 py-16"><p className="hud-label">02 / One connected operation</p><h2 className="mt-4 text-3xl font-semibold">Not more tools. More momentum.</h2><div className="mt-10 grid gap-8 md:grid-cols-3">{[{icon:Instagram,title:'A brand that shows up',body:'Drafts, calendars and previews that keep your Instagram and Facebook unmistakably yours.'},{icon:Target,title:'Campaigns with a purpose',body:'Understand performance, review budget proposals, and connect the outcomes that matter.'},{icon:MessageCircle,title:'Conversations that count',body:'A unified inbox and a clear path from first inquiry to qualified opportunity.'}].map(({icon:Icon,title,body})=><div key={title} className="border-t pt-6"><Icon className="size-6 text-primary"/><h3 className="mt-5 font-semibold">{title}</h3><p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p></div>)}</div></div></section><section className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-2"><div><p className="hud-label">03 / Your time, back</p><h2 className="mt-4 text-3xl font-semibold">What is your time worth?</h2><p className="mt-4 text-sm text-muted-foreground">Estimate the value of the hours you could reclaim. Illustration only; actual savings vary.</p><label className="mt-8 block text-sm">Hours spent on social each month: <strong>{hours[0]}</strong></label><Slider value={hours} onValueChange={setHours} min={1} max={80} step={1} className="mt-5"/><p className="mt-8 font-display text-5xl font-semibold">${Math.round((hours[0]??0)*25*.6)}<span className="ml-2 text-sm font-sans font-normal text-muted-foreground">potential monthly time value</span></p><p className="mt-3 text-xs text-muted-foreground">Assumes 60% time reclaimed at $25/hour.</p></div><div className="space-y-1"><div className="grid grid-cols-3 border-b py-4 text-xs font-semibold"><span>Daily work</span><span>Manual workflow</span><span className="text-primary">With Kaliza</span></div>{[['Content planning','Start from scratch','Review a draft'],['Customer inbox','Separate channels','One conversation view'],['Ad optimization','Manual analysis','Actionable proposals'],['Daily control','Multiple logins','One message']].map(row=><div key={row[0]} className="grid grid-cols-3 gap-2 border-b py-5 text-xs">{row.map((v,i)=><span key={v} className={i===2?'text-primary':i===1?'text-muted-foreground':''}>{v}</span>)}</div>)}</div></section><section className="border-t"><div className="mx-auto max-w-3xl px-6 py-14"><h2 className="mb-6 text-2xl font-semibold">A few good questions.</h2>{[['Does Kaliza contact customers first?','No. Replies are only to existing inbound comments or messages.'],['Do I keep control?','Yes. You review proposed content and changes. Sensitive account settings remain yours.'],['Can I try the workspace?','Yes. Explore the clearly marked demo before creating an account. Live Meta, WhatsApp, voice and payments require provider activation.']].map(([q,a])=><details key={q} className="border-b py-4"><summary className="flex cursor-pointer list-none items-center justify-between text-sm font-medium">{q}<ChevronDown className="size-4"/></summary><p className="mt-3 text-sm text-muted-foreground">{a}</p></details>)}</div></section><section className="bg-cover px-6 py-16 text-center text-cover-foreground"><p className="hud-label text-cover-muted">Your next chapter</p><h2 className="mt-4 text-3xl font-semibold">Your business. Your agent. Your move.</h2><Button asChild className="mt-7 h-12"><Link to="/signup">Get started with Kaliza<ArrowUpRight className="size-4"/></Link></Button></section></PublicShell>;}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
+import { AdHierarchy } from "@/components/kaliza/AdHierarchy";
 import { AppShell } from "@/components/kaliza/AppShell";
 import { CampaignDialog } from "@/components/kaliza/CampaignDialog";
 import { CardSkeletons, EmptyState, PageHeader, StatCard, StatusBadge, money } from "@/components/kaliza/common";
@@ -10,12 +11,14 @@ import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { getCampaigns, updateCampaignStatus } from "@/lib/api";
 
-export const Route = createFileRoute("/ads/")({
+export const Route = createFileRoute("/_authenticated/ads/")({
   head: () => ({
     meta: [
       { title: "Ads — Kaliza" },
       { name: "description", content: "Monitor and optimize your Meta Ads campaigns with Kaliza." },
       { property: "og:title", content: "Ads — Kaliza" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:description", content: "Meta Ads campaigns, spend and ROAS in one view." },
     ],
   }),
@@ -63,6 +66,7 @@ function AdsPage() {
           </Table>
         )}
       </div>
+      <AdHierarchy/>
       <CampaignDialog open={creating} onClose={() => setCreating(false)} onSaved={() => qc.invalidateQueries({ queryKey: ["campaigns"] })} />
     </AppShell>
   );
