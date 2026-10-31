@@ -11,3 +11,4 @@
 - [x] Verify routes, simulated approvals, themes and mobile layouts
 - [ ] Live AI orchestration, notification delivery and team invitations (blocked: provider activation and owner account verification)
 - [ ] External Meta/WhatsApp/voice/payment activation (blocked: provider accounts, credentials and approval)
+- [x] Predefined brand voice, business type, budget and escalation choices with custom alternatives
