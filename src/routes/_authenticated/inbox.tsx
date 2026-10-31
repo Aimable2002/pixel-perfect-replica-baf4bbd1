@@ -10,12 +10,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { getConversations, sendReply, updateConversation } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/inbox")({
+export const Route = createFileRoute("/_authenticated/inbox")({
   head: () => ({
     meta: [
       { title: "Inbox — Kaliza" },
       { name: "description", content: "Every Instagram and Facebook comment and DM in one place, with replies suggested by Kaliza." },
       { property: "og:title", content: "Inbox — Kaliza" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:description", content: "Unified comments and DMs with AI-suggested replies." },
     ],
   }),

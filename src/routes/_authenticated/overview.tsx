@@ -7,12 +7,14 @@ import { Button } from "@/components/ui/button";
 import { getActivityFeed, getAgentSuggestions, getDashboardMetrics } from "@/lib/api";
 
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/overview")({
   head: () => ({
     meta: [
       { title: "Overview — Kaliza" },
       { name: "description", content: "Your business at a glance: reach, engagement, leads, ads and everything Kaliza did for you." },
       { property: "og:title", content: "Overview — Kaliza" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:description", content: "Your business at a glance with Kaliza, the AI growth operator for Meta." },
     ],
   }),

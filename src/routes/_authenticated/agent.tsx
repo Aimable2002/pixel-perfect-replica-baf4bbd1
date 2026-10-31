@@ -3,12 +3,14 @@ import { AppShell } from "@/components/kaliza/AppShell";
 import { AgentChat } from "@/components/kaliza/AgentChat";
 import { KalizaMark } from "@/components/kaliza/common";
 
-export const Route = createFileRoute("/agent")({
+export const Route = createFileRoute("/_authenticated/agent")({
   head: () => ({
     meta: [
       { title: "Talk to Kaliza — Kaliza" },
       { name: "description", content: "Chat with your Kaliza agent to create content, analyze ads, reply to customers and more." },
       { property: "og:title", content: "Talk to Kaliza" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:description", content: "Your AI growth operator, one message away." },
     ],
   }),

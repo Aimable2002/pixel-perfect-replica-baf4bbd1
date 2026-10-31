@@ -13,12 +13,14 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getConnectedAccounts, getTeam, inviteTeamMember, toggleAccountConnection } from "@/lib/api";
 
-export const Route = createFileRoute("/settings")({
+export const Route = createFileRoute("/_authenticated/settings")({
   head: () => ({
     meta: [
       { title: "Settings — Kaliza" },
       { name: "description", content: "Connected accounts, notifications, agent behavior, team and billing." },
       { property: "og:title", content: "Settings — Kaliza" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:description", content: "Manage how Kaliza works for your business." },
     ],
   }),

@@ -9,12 +9,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/onboarding")({
+export const Route = createFileRoute("/_authenticated/onboarding")({
   head: () => ({
     meta: [
       { title: "Get started — Kaliza" },
       { name: "description", content: "Connect Instagram, Facebook, Meta Ads and WhatsApp, then tell Kaliza about your brand." },
       { property: "og:title", content: "Get started — Kaliza" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:description", content: "Connect your accounts and set up your brand in minutes." },
     ],
   }),

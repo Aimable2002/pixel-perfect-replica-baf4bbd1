@@ -8,12 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getLeads, updateLeadStatus, type LeadStatus } from "@/lib/api";
 
-export const Route = createFileRoute("/leads")({
+export const Route = createFileRoute("/_authenticated/leads")({
   head: () => ({
     meta: [
       { title: "Leads — Kaliza" },
       { name: "description", content: "Qualified conversations and opportunities found by Kaliza across Instagram and Facebook." },
       { property: "og:title", content: "Leads — Kaliza" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:description", content: "Track qualified leads and deals." },
     ],
   }),

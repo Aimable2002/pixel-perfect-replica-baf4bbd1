@@ -10,12 +10,14 @@ import { Button } from "@/components/ui/button";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { getCampaign, getCampaignPerformance, updateCampaignStatus } from "@/lib/api";
 
-export const Route = createFileRoute("/ads/$id")({
+export const Route = createFileRoute("/_authenticated/ads/$id")({
   head: () => ({
     meta: [
       { title: "Campaign details — Kaliza" },
       { name: "description", content: "Performance and recommendations for a single Meta Ads campaign." },
       { property: "og:title", content: "Campaign details — Kaliza" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:description", content: "Campaign performance and Kaliza's recommendations." },
     ],
   }),

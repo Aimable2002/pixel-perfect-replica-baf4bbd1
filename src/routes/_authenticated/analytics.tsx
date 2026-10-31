@@ -8,12 +8,14 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { getAnalytics, type AnalyticsPoint } from "@/lib/api";
 
-export const Route = createFileRoute("/analytics")({
+export const Route = createFileRoute("/_authenticated/analytics")({
   head: () => ({
     meta: [
       { title: "Analytics — Kaliza" },
       { name: "description", content: "Engagement, reach, leads, ad spend and results over time." },
       { property: "og:title", content: "Analytics — Kaliza" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:description", content: "Charts for reach, engagement, leads and ad results." },
     ],
   }),

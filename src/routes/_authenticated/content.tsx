@@ -15,12 +15,14 @@ import { Label } from "@/components/ui/label";
 import { getMediaLibrary, getPosts, savePost, updatePostStatus, type Post, type PostStatus } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/content")({
+export const Route = createFileRoute("/_authenticated/content")({
   head: () => ({
     meta: [
       { title: "Content — Kaliza" },
       { name: "description", content: "Plan, approve and schedule Instagram and Facebook posts with Kaliza." },
       { property: "og:title", content: "Content — Kaliza" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:description", content: "Content calendar, approval queue and media library." },
     ],
   }),
