@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
+import { watchAuth } from "@/lib/api";
 import { Toaster } from "@/components/ui/sonner";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -117,6 +118,8 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+  useEffect(() => { const sub = watchAuth(() => { queryClient.clear(); router.invalidate(); }); return () => sub.unsubscribe(); }, [queryClient, router]);
 
   return (
     <QueryClientProvider client={queryClient}>
