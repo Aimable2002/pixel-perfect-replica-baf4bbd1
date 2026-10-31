@@ -1,11 +1,13 @@
 # Kaliza rebuild
-- [ ] Public landing, pricing, features and recovery pages
-- [ ] Adaptive HUD shell and guided overview
-- [ ] Inline agent action engine and WhatsApp simulator
-- [ ] Content device previews and media selection
-- [ ] Ad hierarchy and attribution views
-- [ ] Lead Kanban and conversation drawers
-- [ ] Billing and administration pages
-- [ ] Real authentication and owner-scoped saved workspace
-- [ ] Verify routes, action flow, themes and mobile layouts
+- [x] Public landing, pricing, features and recovery pages
+- [x] Adaptive HUD shell and guided overview
+- [x] Inline simulated agent action engine and WhatsApp simulator
+- [x] Content device previews and media selection
+- [x] Ad hierarchy and attribution placeholder views (live data blocked by Meta activation)
+- [x] Lead Kanban and conversation drawers
+- [x] Billing and administration pages
+- [x] Cloud authentication and owner-scoped saved workspace implemented
+- [ ] Signed-in persistence and administrator verification (blocked: no confirmed account exists)
+- [x] Verify routes, simulated approvals, themes and mobile layouts
+- [ ] Live AI orchestration, notification delivery and team invitations (blocked: provider activation and owner account verification)
 - [ ] External Meta/WhatsApp/voice/payment activation (blocked: provider accounts, credentials and approval)
