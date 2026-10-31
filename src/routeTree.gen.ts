@@ -9,62 +9,22 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AgentRouteImport } from './routes/agent'
-import { Route as AnalyticsRouteImport } from './routes/analytics'
-import { Route as ContentRouteImport } from './routes/content'
-import { Route as InboxRouteImport } from './routes/inbox'
-import { Route as LeadsRouteImport } from './routes/leads'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as OnboardingRouteImport } from './routes/onboarding'
-import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SignupRouteImport } from './routes/signup'
-import { Route as AdsIndexRouteImport } from './routes/ads.index'
-import { Route as AdsIdRouteImport } from './routes/ads.$id'
+import { Route as AuthenticatedAgentRouteImport } from './routes/_authenticated/agent'
+import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
+import { Route as AuthenticatedContentRouteImport } from './routes/_authenticated/content'
+import { Route as AuthenticatedInboxRouteImport } from './routes/_authenticated/inbox'
+import { Route as AuthenticatedLeadsRouteImport } from './routes/_authenticated/leads'
+import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
+import { Route as AuthenticatedOverviewRouteImport } from './routes/_authenticated/overview'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedAdsIndexRouteImport } from './routes/_authenticated/ads.index'
+import { Route as AuthenticatedAdsIdRouteImport } from './routes/_authenticated/ads.$id'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AgentRoute = AgentRouteImport.update({
-  id: '/agent',
-  path: '/agent',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AnalyticsRoute = AnalyticsRouteImport.update({
-  id: '/analytics',
-  path: '/analytics',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContentRoute = ContentRouteImport.update({
-  id: '/content',
-  path: '/content',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InboxRoute = InboxRouteImport.update({
-  id: '/inbox',
-  path: '/inbox',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LeadsRoute = LeadsRouteImport.update({
-  id: '/leads',
-  path: '/leads',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OnboardingRoute = OnboardingRouteImport.update({
-  id: '/onboarding',
-  path: '/onboarding',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignupRoute = SignupRouteImport.update({
@@ -72,183 +32,167 @@ const SignupRoute = SignupRouteImport.update({
   path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdsIndexRoute = AdsIndexRouteImport.update({
-  id: '/ads/',
+const AuthenticatedAgentRoute = AuthenticatedAgentRouteImport.update({
+  id: '/_authenticated/agent',
+  path: '/agent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
+  id: '/_authenticated/analytics',
+  path: '/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedContentRoute = AuthenticatedContentRouteImport.update({
+  id: '/_authenticated/content',
+  path: '/content',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedInboxRoute = AuthenticatedInboxRouteImport.update({
+  id: '/_authenticated/inbox',
+  path: '/inbox',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedLeadsRoute = AuthenticatedLeadsRouteImport.update({
+  id: '/_authenticated/leads',
+  path: '/leads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
+  id: '/_authenticated/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedOverviewRoute = AuthenticatedOverviewRouteImport.update({
+  id: '/_authenticated/overview',
+  path: '/overview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/_authenticated/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdsIndexRoute = AuthenticatedAdsIndexRouteImport.update({
+  id: '/_authenticated/ads/',
   path: '/ads/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdsIdRoute = AdsIdRouteImport.update({
-  id: '/ads/$id',
+const AuthenticatedAdsIdRoute = AuthenticatedAdsIdRouteImport.update({
+  id: '/_authenticated/ads/$id',
   path: '/ads/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/agent': typeof AgentRoute
-  '/analytics': typeof AnalyticsRoute
-  '/content': typeof ContentRoute
-  '/inbox': typeof InboxRoute
-  '/leads': typeof LeadsRoute
   '/login': typeof LoginRoute
-  '/onboarding': typeof OnboardingRoute
-  '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
-  '/ads/$id': typeof AdsIdRoute
-  '/ads/': typeof AdsIndexRoute
+  '/agent': typeof AuthenticatedAgentRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/content': typeof AuthenticatedContentRoute
+  '/inbox': typeof AuthenticatedInboxRoute
+  '/leads': typeof AuthenticatedLeadsRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/overview': typeof AuthenticatedOverviewRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/ads/$id': typeof AuthenticatedAdsIdRoute
+  '/ads/': typeof AuthenticatedAdsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/agent': typeof AgentRoute
-  '/analytics': typeof AnalyticsRoute
-  '/content': typeof ContentRoute
-  '/inbox': typeof InboxRoute
-  '/leads': typeof LeadsRoute
   '/login': typeof LoginRoute
-  '/onboarding': typeof OnboardingRoute
-  '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
-  '/ads/$id': typeof AdsIdRoute
-  '/ads': typeof AdsIndexRoute
+  '/agent': typeof AuthenticatedAgentRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/content': typeof AuthenticatedContentRoute
+  '/inbox': typeof AuthenticatedInboxRoute
+  '/leads': typeof AuthenticatedLeadsRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/overview': typeof AuthenticatedOverviewRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/ads/$id': typeof AuthenticatedAdsIdRoute
+  '/ads': typeof AuthenticatedAdsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/agent': typeof AgentRoute
-  '/analytics': typeof AnalyticsRoute
-  '/content': typeof ContentRoute
-  '/inbox': typeof InboxRoute
-  '/leads': typeof LeadsRoute
   '/login': typeof LoginRoute
-  '/onboarding': typeof OnboardingRoute
-  '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
-  '/ads/$id': typeof AdsIdRoute
-  '/ads/': typeof AdsIndexRoute
+  '/_authenticated/agent': typeof AuthenticatedAgentRoute
+  '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
+  '/_authenticated/content': typeof AuthenticatedContentRoute
+  '/_authenticated/inbox': typeof AuthenticatedInboxRoute
+  '/_authenticated/leads': typeof AuthenticatedLeadsRoute
+  '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
+  '/_authenticated/overview': typeof AuthenticatedOverviewRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/ads/$id': typeof AuthenticatedAdsIdRoute
+  '/_authenticated/ads/': typeof AuthenticatedAdsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
+    | '/login'
+    | '/signup'
     | '/agent'
     | '/analytics'
     | '/content'
     | '/inbox'
     | '/leads'
-    | '/login'
     | '/onboarding'
+    | '/overview'
     | '/settings'
-    | '/signup'
     | '/ads/$id'
     | '/ads/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
+    | '/login'
+    | '/signup'
     | '/agent'
     | '/analytics'
     | '/content'
     | '/inbox'
     | '/leads'
-    | '/login'
     | '/onboarding'
+    | '/overview'
     | '/settings'
-    | '/signup'
     | '/ads/$id'
     | '/ads'
   id:
     | '__root__'
-    | '/'
-    | '/agent'
-    | '/analytics'
-    | '/content'
-    | '/inbox'
-    | '/leads'
     | '/login'
-    | '/onboarding'
-    | '/settings'
     | '/signup'
-    | '/ads/$id'
-    | '/ads/'
+    | '/_authenticated/agent'
+    | '/_authenticated/analytics'
+    | '/_authenticated/content'
+    | '/_authenticated/inbox'
+    | '/_authenticated/leads'
+    | '/_authenticated/onboarding'
+    | '/_authenticated/overview'
+    | '/_authenticated/settings'
+    | '/_authenticated/ads/$id'
+    | '/_authenticated/ads/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AgentRoute: typeof AgentRoute
-  AnalyticsRoute: typeof AnalyticsRoute
-  ContentRoute: typeof ContentRoute
-  InboxRoute: typeof InboxRoute
-  LeadsRoute: typeof LeadsRoute
   LoginRoute: typeof LoginRoute
-  OnboardingRoute: typeof OnboardingRoute
-  SettingsRoute: typeof SettingsRoute
   SignupRoute: typeof SignupRoute
-  AdsIdRoute: typeof AdsIdRoute
-  AdsIndexRoute: typeof AdsIndexRoute
+  AuthenticatedAgentRoute: typeof AuthenticatedAgentRoute
+  AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
+  AuthenticatedContentRoute: typeof AuthenticatedContentRoute
+  AuthenticatedInboxRoute: typeof AuthenticatedInboxRoute
+  AuthenticatedLeadsRoute: typeof AuthenticatedLeadsRoute
+  AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
+  AuthenticatedOverviewRoute: typeof AuthenticatedOverviewRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedAdsIdRoute: typeof AuthenticatedAdsIdRoute
+  AuthenticatedAdsIndexRoute: typeof AuthenticatedAdsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/agent': {
-      id: '/agent'
-      path: '/agent'
-      fullPath: '/agent'
-      preLoaderRoute: typeof AgentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/analytics': {
-      id: '/analytics'
-      path: '/analytics'
-      fullPath: '/analytics'
-      preLoaderRoute: typeof AnalyticsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/content': {
-      id: '/content'
-      path: '/content'
-      fullPath: '/content'
-      preLoaderRoute: typeof ContentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/inbox': {
-      id: '/inbox'
-      path: '/inbox'
-      fullPath: '/inbox'
-      preLoaderRoute: typeof InboxRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/leads': {
-      id: '/leads'
-      path: '/leads'
-      fullPath: '/leads'
-      preLoaderRoute: typeof LeadsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/onboarding': {
-      id: '/onboarding'
-      path: '/onboarding'
-      fullPath: '/onboarding'
-      preLoaderRoute: typeof OnboardingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/signup': {
@@ -258,36 +202,92 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/ads/': {
-      id: '/ads/'
-      path: '/ads'
-      fullPath: '/ads/'
-      preLoaderRoute: typeof AdsIndexRouteImport
+    '/_authenticated/agent': {
+      id: '/_authenticated/agent'
+      path: '/agent'
+      fullPath: '/agent'
+      preLoaderRoute: typeof AuthenticatedAgentRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/ads/$id': {
-      id: '/ads/$id'
+    '/_authenticated/analytics': {
+      id: '/_authenticated/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/content': {
+      id: '/_authenticated/content'
+      path: '/content'
+      fullPath: '/content'
+      preLoaderRoute: typeof AuthenticatedContentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/inbox': {
+      id: '/_authenticated/inbox'
+      path: '/inbox'
+      fullPath: '/inbox'
+      preLoaderRoute: typeof AuthenticatedInboxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/leads': {
+      id: '/_authenticated/leads'
+      path: '/leads'
+      fullPath: '/leads'
+      preLoaderRoute: typeof AuthenticatedLeadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/onboarding': {
+      id: '/_authenticated/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/overview': {
+      id: '/_authenticated/overview'
+      path: '/overview'
+      fullPath: '/overview'
+      preLoaderRoute: typeof AuthenticatedOverviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/ads/': {
+      id: '/_authenticated/ads/'
+      path: '/ads'
+      fullPath: '/ads/'
+      preLoaderRoute: typeof AuthenticatedAdsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/ads/$id': {
+      id: '/_authenticated/ads/$id'
       path: '/ads/$id'
       fullPath: '/ads/$id'
-      preLoaderRoute: typeof AdsIdRouteImport
+      preLoaderRoute: typeof AuthenticatedAdsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AgentRoute: AgentRoute,
-  AnalyticsRoute: AnalyticsRoute,
-  ContentRoute: ContentRoute,
-  InboxRoute: InboxRoute,
-  LeadsRoute: LeadsRoute,
   LoginRoute: LoginRoute,
-  OnboardingRoute: OnboardingRoute,
-  SettingsRoute: SettingsRoute,
   SignupRoute: SignupRoute,
-  AdsIdRoute: AdsIdRoute,
-  AdsIndexRoute: AdsIndexRoute,
+  AuthenticatedAgentRoute: AuthenticatedAgentRoute,
+  AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
+  AuthenticatedContentRoute: AuthenticatedContentRoute,
+  AuthenticatedInboxRoute: AuthenticatedInboxRoute,
+  AuthenticatedLeadsRoute: AuthenticatedLeadsRoute,
+  AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
+  AuthenticatedOverviewRoute: AuthenticatedOverviewRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedAdsIdRoute: AuthenticatedAdsIdRoute,
+  AuthenticatedAdsIndexRoute: AuthenticatedAdsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
