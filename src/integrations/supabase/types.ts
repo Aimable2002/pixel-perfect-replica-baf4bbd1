@@ -38,6 +38,57 @@ export type Database = {
         }
         Relationships: []
       }
+      legal_settings: {
+        Row: {
+          details: Json
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          details?: Json
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          details?: Json
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      privacy_requests: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          note: string
+          owner_id: string
+          response: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          note?: string
+          owner_id: string
+          response?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          note?: string
+          owner_id?: string
+          response?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string

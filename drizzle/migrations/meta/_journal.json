@@ -15,6 +15,13 @@
       "when": 1793437598550,
       "tag": "0001_protect_agent_pause_and_workspace_identity",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793533173524,
+      "tag": "0002_legal_settings_and_privacy_requests",
+      "breakpoints": true
     }
   ]
 }
