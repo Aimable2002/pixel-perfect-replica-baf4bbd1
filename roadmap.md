@@ -1,4 +1,8 @@
 # Kaliza rebuild
+- [ ] Add public privacy, terms and data-deletion pages aligned with actual services
+- [ ] Add durable administrator editing for legal placeholders and business details
+- [ ] Add owner deletion requests, private status tracking and administrator review
+- [ ] Verify legal settings persistence, permissions and public page readback
 - [x] Public landing, pricing, features and recovery pages
 - [x] Adaptive HUD shell and guided overview
 - [x] Inline simulated agent action engine and WhatsApp simulator
