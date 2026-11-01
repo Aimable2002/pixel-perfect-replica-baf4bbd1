@@ -3,6 +3,7 @@ import brunch from "@/assets/bistro-brunch.jpg";
 import type {
   ActivityItem, AgentMessage, AgentSuggestion, AnalyticsPoint, Campaign, Conversation,
   DashboardMetric, Lead, MediaItem, Post, TeamMember, ConnectedAccount,
+  AdminPricing, PricingCatalog, PromoCode, ResourceCost, UsageSnapshot,
 } from "./types";
 
 const day = (offset: number, hour = 10) => {
@@ -147,6 +148,185 @@ export const mockActions: import('./types').AgentAction[] = [
  { id: 'ab1', kind: 'budget', title: 'Scale your strongest campaign', body: 'Private Events leads returns 5.6× ROAS. Proposed daily budget: $45, up from $35. Owner approval required.', targetId: 'cp3', amount: 45, status: 'pending' },
  { id: 'ar1', kind: 'reply', title: 'Aline · private catering', body: "Thanks Aline! I’ll ask our owner to confirm availability and a quote for your 80 guests. Could you share your preferred menu?", targetId: 'c1', status: 'pending' }
 ];
-export const mockUsage = { voice: 182, adSpend: 4200, events: 12480 };
 export const mockTenants = [{id:'demo-villa',name:'La Villa Bistro',plan:'Pro',status:'Trial',paused:false},{id:'demo-apex',name:'Apex Fitness',plan:'Scale',status:'Active',paused:false},{id:'demo-lumina',name:'Lumina Goods',plan:'Starter',status:'Active',paused:true}];
 export const mockJobs = [{name:'Weekend content plan',tenant:'La Villa Bistro',status:'Awaiting approval',progress:100},{name:'Ad performance review',tenant:'Apex Fitness',status:'Completed',progress:100},{name:'Lead qualification',tenant:'Lumina Goods',status:'Paused',progress:32}];
+
+// ─── Pricing, promo codes and usage ──────────────────────────────────────────
+// Product model: every customer's sandbox runs 24/7, so its cost is a fixed BASE counted
+// in every plan. Only what varies is metered: agent requests, voice minutes and storage.
+// Retail rates and allowances are placeholders an administrator edits in Admin > Pricing.
+const universalFeatures = [
+  "Every feature on every plan",
+  "Control from WhatsApp and the dashboard",
+  "You approve before anything goes live",
+  "Results measured against your starting point",
+];
+
+export const mockPricing: PricingCatalog = {
+  currency: "USD",
+  baseFee: 69,
+  demoPromoHint: "LAUNCH25",
+  lifecycle: { liveAfterFailedPaymentDays: 7, backupKeptDays: 30 },
+  resources: [
+    {
+      key: "brands", label: "Brands", group: "workspace", provider: "Kaliza", kind: "limit",
+      summary: "Businesses you run from one account.",
+      counts: "Each brand is one Instagram account, Facebook Page and Meta ad account with its own voice, memory and approval queue. The first brand is included in every custom plan.",
+      suffix: " brands", singular: " brand", min: 1, max: 25, step: 1, rate: 20, rateBasis: { per: 1, unit: "extra brand" }, freeUnits: 1,
+    },
+    {
+      key: "seats", label: "Team seats", group: "workspace", provider: "Kaliza", kind: "limit",
+      summary: "People who can sign in.",
+      counts: "Everyone invited to the workspace with a role (owner, editor, viewer). The owner seat is always included.",
+      suffix: " seats", singular: " seat", min: 1, max: 50, step: 1, rate: 6, rateBasis: { per: 1, unit: "extra seat" }, freeUnits: 1,
+    },
+    {
+      key: "adSpend", label: "Managed ad spend", group: "meta", provider: "Meta Marketing API", kind: "limit",
+      summary: "Ad budget Kaliza may manage each month.",
+      counts: "The monthly ad budget across your connected ad accounts that Kaliza can create, change and pause. The ad spend itself is paid to Meta, not to Kaliza.",
+      prefix: "$", suffix: "", min: 0, max: 250000, step: 500, rate: 0.001, rateBasis: { per: 1, unit: "managed spend", percent: true },
+    },
+    {
+      key: "conversionEvents", label: "Conversion events", group: "meta", provider: "Meta Conversions API", kind: "limit",
+      summary: "Real outcomes sent back to Meta.",
+      counts: "Each lead, booking or sale event Kaliza sends to Meta through the Conversions API so ads learn from real results.",
+      suffix: " events", singular: " event", min: 0, max: 1000000, step: 5000, rate: 0.0001, rateBasis: { per: 1000, unit: "events" },
+    },
+    {
+      key: "agentRequests", label: "Agent requests", group: "agent", provider: "OpenCode and the model provider", kind: "usage",
+      summary: "Jobs your operator takes on.",
+      counts: "Each time your operator is asked to do something: an instruction from you, a comment or DM it answers, or a job it runs on schedule. Your operator’s sandbox is on 24/7, so hours are never counted; only requests are.",
+      suffix: " requests", singular: " request", min: 0, max: 50000, step: 100, rate: 0.14, rateBasis: { per: 1, unit: "request" },
+    },
+    {
+      key: "voiceMinutes", label: "Real-time voice", group: "channels", provider: "Vapi or Retell AI", kind: "usage",
+      summary: "Spoken conversations with your operator.",
+      counts: "Minutes a live voice call with your operator is connected, counted by the second and rounded up to the next minute at month end.",
+      suffix: " min", min: 0, max: 5000, step: 50, rate: 0.28, rateBasis: { per: 1, unit: "minute" },
+    },
+    {
+      key: "storageGb", label: "Media storage", group: "storage", provider: "Cloudflare R2 or AWS S3", kind: "usage",
+      summary: "Photos, videos and creatives you keep.",
+      counts: "Everything in your media library: files you upload or send on WhatsApp, plus creatives and edited videos the agent produces. Sandbox backups are not counted against it.",
+      suffix: " GB", min: 1, max: 1000, step: 5, rate: 0.03, rateBasis: { per: 1, unit: "GB" },
+    },
+  ],
+  plans: [
+    {
+      id: "starter", name: "Starter", price: 79, tagline: "Your growth stage",
+      includes: { brands: 1, seats: 1, adSpend: 2500, conversionEvents: 10000, agentRequests: 200, voiceMinutes: 100, storageGb: 5 },
+      features: universalFeatures,
+    },
+    {
+      id: "pro", name: "Pro", price: 149, tagline: "Popular choice", popular: true,
+      includes: { brands: 2, seats: 3, adSpend: 10000, conversionEvents: 50000, agentRequests: 600, voiceMinutes: 300, storageGb: 25 },
+      features: universalFeatures,
+    },
+    {
+      id: "scale", name: "Scale", price: 299, tagline: "Your growth stage",
+      includes: { brands: 5, seats: 8, adSpend: 40000, conversionEvents: 200000, agentRequests: 1500, voiceMinutes: 1000, storageGb: 100 },
+      features: universalFeatures,
+    },
+    {
+      id: "agency", name: "Agency", price: 599, tagline: "Multiple businesses",
+      includes: { brands: 10, seats: 20, adSpend: 100000, conversionEvents: 500000, agentRequests: 4000, voiceMinutes: 2000, storageGb: 250 },
+      features: universalFeatures,
+      note: "White-label and custom compute are future features, not available in V1.",
+    },
+  ],
+  guarantees: [
+    {
+      title: "Always on, always backed up",
+      body: "Your operator’s sandbox runs 24/7, so it is ready the moment a customer writes or you send a message. It is backed up continuously on every plan: if it is ever rebuilt, it comes back with its files, memory and unfinished work.",
+    },
+    {
+      title: "You stay in control",
+      body: "Approve, reject or pause your operator from WhatsApp or the dashboard at any time.",
+    },
+    {
+      title: "Replies only",
+      body: "Kaliza answers customers who comment or message you first. It never starts a conversation.",
+    },
+  ],
+  alwaysIncluded: [
+    "Scheduling, publishing and the content calendar",
+    "Unified inbox for comments and DMs",
+    "Analytics and your results report",
+    "Meta Graph, Marketing and Conversions API connections",
+    "WhatsApp owner chat and approvals",
+    "Your always-on sandbox, database, hosting and audit trail",
+  ],
+  overagePolicy:
+    "Allowances reset every month. As you approach one, Kaliza warns you. At the limit your operator keeps working in a lighter mode instead of stopping, and nothing is billed beyond your plan without your approval.",
+};
+
+// What things cost us. Admin only: never served by the public pricing endpoint.
+// Checked against each provider's published prices on 31 October 2026.
+export const mockCosts: Pick<AdminPricing, "costs" | "baseCosts" | "costsCheckedOn"> = {
+  costsCheckedOn: "2026-10-31",
+  baseCosts: [
+    {
+      id: "sandbox",
+      label: "Always-on sandbox",
+      monthlyPerUnit: 48.62,
+      unitsByPlan: { starter: 1, pro: 1, scale: 1, agency: 1 },
+      basis:
+        "Daytona bills per second for what a sandbox reserves: $0.0504 per vCPU-hour and $0.0162 per GiB-hour of memory, with disk free up to 5 GiB. At Daytona’s default size (1 vCPU, 1 GiB memory, 3 GiB disk) that is $0.0666 an hour, or $48.62 over a 730-hour month. A 2 vCPU, 4 GiB sandbox costs $120.89 a month. Units per plan assume one sandbox per account; one per brand is still an open decision.",
+      source: "daytona.io/pricing",
+    },
+    {
+      id: "platform",
+      label: "Shared platform (database, cache, hosting, queues)",
+      monthlyPerUnit: 0,
+      unitsByPlan: { starter: 1, pro: 1, scale: 1, agency: 1 },
+      basis: "Not measured yet. Enter each account’s share once the stack is chosen.",
+      source: "Internal",
+    },
+  ],
+  costs: [
+    {
+      key: "agentRequests", unitCost: 0.1,
+      costLabel: "$0.10 per request, planning figure",
+      basis:
+        "Planning assumption of about 40,000 input and 3,000 output tokens per request on Claude Sonnet 5.5, listed at $2 and $10 per million tokens: 0.04 × $2 + 0.003 × $10 ≈ $0.11, rounded to $0.10 with prompt caching. Haiku 5.5 ($0.10 and $0.50 per million) would cost about 20 times less for routine replies. The model and the real tokens per request are not measured yet.",
+      source: "platform.claude.com pricing",
+    },
+    {
+      key: "voiceMinutes", unitCost: 0.2,
+      costLabel: "$0.20 per minute, all in",
+      basis:
+        "Vapi charges a $0.05 per minute platform fee, with speech-to-text, the model, the voice and telephony passed through at cost. Published all-in figures run from about $0.10 to $0.31 per minute depending on the voice and model; $0.20 is the planning midpoint.",
+      source: "vapi.ai/pricing and 2026 third-party breakdowns",
+    },
+    {
+      key: "storageGb", unitCost: 0.015,
+      costLabel: "$0.015 per GB-month",
+      basis: "Cloudflare R2 standard storage is $0.015 per GB-month with no egress fees, and the first 10 GB on the account are free.",
+      source: "developers.cloudflare.com/r2/pricing",
+    },
+    ...(["brands", "seats", "adSpend", "conversionEvents"] as const).map((key) => ({
+      key,
+      unitCost: null,
+      costLabel: "Plan limit, no per-unit cost",
+      basis: "A boundary of the plan. No per-unit provider cost is modelled.",
+      source: "n/a",
+    })),
+  ],
+};
+
+export const mockPromoCodes: PromoCode[] = [
+  { code: "LAUNCH25", label: "25% off", kind: "percent", value: 25, months: 3, appliesTo: "all", expires: "2026-12-31" },
+  { code: "FOUNDER50", label: "50% off", kind: "percent", value: 50, months: 1, appliesTo: "all", expires: "2027-03-31" },
+  { code: "WELCOME20", label: "$20 off", kind: "amount", value: 20, months: 1, appliesTo: ["starter", "pro", "scale", "agency"], expires: "2027-06-30" },
+  { code: "AGENCY10", label: "10% off", kind: "percent", value: 10, months: null, appliesTo: ["agency"] },
+  { code: "SUMMER26", label: "30% off", kind: "percent", value: 30, months: 2, appliesTo: "all", expires: "2026-09-30" },
+];
+
+export const mockUsageSnapshot: Omit<UsageSnapshot, "limits"> = {
+  planId: "pro",
+  planName: "Pro",
+  isDemo: true,
+  periodStart: day(-12, 0),
+  periodEnd: day(18, 0),
+  used: { brands: 1, seats: 3, adSpend: 4200, conversionEvents: 12480, agentRequests: 214, voiceMinutes: 182, storageGb: 3.2 },
+};
