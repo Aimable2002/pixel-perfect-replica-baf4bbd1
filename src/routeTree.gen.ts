@@ -31,6 +31,7 @@ import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminFleetRouteImport } from './routes/_authenticated/admin.fleet'
 import { Route as AuthenticatedAdminIntegrationsRouteImport } from './routes/_authenticated/admin.integrations'
 import { Route as AuthenticatedAdminLogsRouteImport } from './routes/_authenticated/admin.logs'
+import { Route as AuthenticatedAdminPricingRouteImport } from './routes/_authenticated/admin.pricing'
 import { Route as AuthenticatedAdminTenantsRouteImport } from './routes/_authenticated/admin.tenants'
 import { Route as AuthenticatedAdsIndexRouteImport } from './routes/_authenticated/ads.index'
 import { Route as AuthenticatedAdsIdRouteImport } from './routes/_authenticated/ads.$id'
@@ -145,6 +146,12 @@ const AuthenticatedAdminLogsRoute = AuthenticatedAdminLogsRouteImport.update({
   path: '/admin/logs',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminPricingRoute =
+  AuthenticatedAdminPricingRouteImport.update({
+    id: '/admin/pricing',
+    path: '/admin/pricing',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminTenantsRoute =
   AuthenticatedAdminTenantsRouteImport.update({
     id: '/admin/tenants',
@@ -183,6 +190,7 @@ export interface FileRoutesByFullPath {
   '/admin/fleet': typeof AuthenticatedAdminFleetRoute
   '/admin/integrations': typeof AuthenticatedAdminIntegrationsRoute
   '/admin/logs': typeof AuthenticatedAdminLogsRoute
+  '/admin/pricing': typeof AuthenticatedAdminPricingRoute
   '/admin/tenants': typeof AuthenticatedAdminTenantsRoute
   '/ads/$id': typeof AuthenticatedAdsIdRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -209,6 +217,7 @@ export interface FileRoutesByTo {
   '/admin/fleet': typeof AuthenticatedAdminFleetRoute
   '/admin/integrations': typeof AuthenticatedAdminIntegrationsRoute
   '/admin/logs': typeof AuthenticatedAdminLogsRoute
+  '/admin/pricing': typeof AuthenticatedAdminPricingRoute
   '/admin/tenants': typeof AuthenticatedAdminTenantsRoute
   '/ads/$id': typeof AuthenticatedAdsIdRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -237,6 +246,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/fleet': typeof AuthenticatedAdminFleetRoute
   '/_authenticated/admin/integrations': typeof AuthenticatedAdminIntegrationsRoute
   '/_authenticated/admin/logs': typeof AuthenticatedAdminLogsRoute
+  '/_authenticated/admin/pricing': typeof AuthenticatedAdminPricingRoute
   '/_authenticated/admin/tenants': typeof AuthenticatedAdminTenantsRoute
   '/_authenticated/ads/$id': typeof AuthenticatedAdsIdRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -265,6 +275,7 @@ export interface FileRouteTypes {
     | '/admin/fleet'
     | '/admin/integrations'
     | '/admin/logs'
+    | '/admin/pricing'
     | '/admin/tenants'
     | '/ads/$id'
     | '/admin/'
@@ -291,6 +302,7 @@ export interface FileRouteTypes {
     | '/admin/fleet'
     | '/admin/integrations'
     | '/admin/logs'
+    | '/admin/pricing'
     | '/admin/tenants'
     | '/ads/$id'
     | '/admin'
@@ -318,6 +330,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/fleet'
     | '/_authenticated/admin/integrations'
     | '/_authenticated/admin/logs'
+    | '/_authenticated/admin/pricing'
     | '/_authenticated/admin/tenants'
     | '/_authenticated/ads/$id'
     | '/_authenticated/admin/'
@@ -492,6 +505,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminLogsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/pricing': {
+      id: '/_authenticated/admin/pricing'
+      path: '/admin/pricing'
+      fullPath: '/admin/pricing'
+      preLoaderRoute: typeof AuthenticatedAdminPricingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/tenants': {
       id: '/_authenticated/admin/tenants'
       path: '/admin/tenants'
@@ -529,6 +549,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminFleetRoute: typeof AuthenticatedAdminFleetRoute
   AuthenticatedAdminIntegrationsRoute: typeof AuthenticatedAdminIntegrationsRoute
   AuthenticatedAdminLogsRoute: typeof AuthenticatedAdminLogsRoute
+  AuthenticatedAdminPricingRoute: typeof AuthenticatedAdminPricingRoute
   AuthenticatedAdminTenantsRoute: typeof AuthenticatedAdminTenantsRoute
   AuthenticatedAdsIdRoute: typeof AuthenticatedAdsIdRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
@@ -548,6 +569,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminFleetRoute: AuthenticatedAdminFleetRoute,
   AuthenticatedAdminIntegrationsRoute: AuthenticatedAdminIntegrationsRoute,
   AuthenticatedAdminLogsRoute: AuthenticatedAdminLogsRoute,
+  AuthenticatedAdminPricingRoute: AuthenticatedAdminPricingRoute,
   AuthenticatedAdminTenantsRoute: AuthenticatedAdminTenantsRoute,
   AuthenticatedAdsIdRoute: AuthenticatedAdsIdRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
