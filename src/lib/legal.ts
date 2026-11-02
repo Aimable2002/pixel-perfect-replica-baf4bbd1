@@ -40,9 +40,9 @@ export const legalFields = [
 ] as const;
 export type LegalKey = typeof legalFields[number][1];
 export type LegalDetails = Record<LegalKey, string> & { reviewed: boolean };
-const shape = Object.fromEntries(legalFields.map(([, key]) => [key, z.string().trim().max(4000).default('')]));
+const shape = Object.fromEntries(legalFields.map(([, key]) => [key, z.string().trim().max(4000).default('')])) as Record<LegalKey, z.ZodDefault<z.ZodString>>;
 export const legalSchema = z.object({ ...shape, reviewed: z.boolean().default(false) }).superRefine((data, ctx) => {
-  for (const key of ['privacyEmail', 'supportEmail']) {
+  for (const key of ['privacyEmail', 'supportEmail'] as const) {
     const value = data[key];
     if (value && !z.string().email().safeParse(value).success) ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Enter a valid contact email', path: [key] });
   }
