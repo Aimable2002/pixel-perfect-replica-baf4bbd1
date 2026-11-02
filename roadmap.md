@@ -1,8 +1,10 @@
 # Kaliza rebuild
-- [ ] Add public privacy, terms and data-deletion pages aligned with actual services
-- [ ] Add durable administrator editing for legal placeholders and business details
-- [ ] Add owner deletion requests, private status tracking and administrator review
-- [ ] Verify legal settings persistence, permissions and public page readback
+- [x] Add public privacy, terms and data-deletion pages aligned with actual services
+- [x] Add durable administrator editing for legal placeholders and business details
+- [x] Add owner deletion requests, private status tracking and administrator review
+- [x] Verify legal settings persistence, permissions and public page readback
+- [ ] Complete legal business details and obtain Rwanda-qualified review (blocked: owner details and external legal review)
+- [ ] Activate verified account/provider deletion, Meta signed callback and retention jobs (blocked: live provider activation and verified retention obligations)
 - [x] Public landing, pricing, features and recovery pages
 - [x] Adaptive HUD shell and guided overview
 - [x] Inline simulated agent action engine and WhatsApp simulator
@@ -11,7 +13,7 @@
 - [x] Lead Kanban and conversation drawers
 - [x] Billing and administration pages
 - [x] Cloud authentication and owner-scoped saved workspace implemented
-- [ ] Signed-in persistence and administrator verification (blocked: no confirmed account exists)
+- [x] Signed-in persistence and administrator verification
 - [x] Verify routes, simulated approvals, themes and mobile layouts
 - [ ] Live AI orchestration, notification delivery and team invitations (blocked: provider activation and owner account verification)
 - [ ] External Meta/WhatsApp/voice/payment activation (blocked: provider accounts, credentials and approval)
