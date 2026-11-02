@@ -11,6 +11,8 @@ import { lovable } from "@/integrations/lovable";
 import type { Json } from "@/integrations/supabase/types";
 import type { DataSource } from "./datasource";
 import { mockSource } from "./mock-source";
+import { readPublicLegalDetails } from './legal.functions';
+import { legalSchema, parseLegalDetails, privacyRequestSchema, privacyReviewSchema, type LegalDetails } from './legal';
 import type {
   AdminPricing, AgentAction, CampaignInput, CampaignStatus, CheckoutIntent, Conversation, LeadStatus, PostInput, PostStatus,
 } from "./types";
@@ -218,4 +220,42 @@ export async function getAdminPricing() {
 export async function saveAdminPricing(pricing: AdminPricing) {
   await requireAdminIfSignedIn();
   return source.saveAdminPricing(pricing);
+}
+
+// Legal configuration is durable platform data, not sample business activity.
+export const getLegalDetails = () => readPublicLegalDetails();
+export async function saveLegalDetails(details: LegalDetails) {
+  if (!(await getAdminAccess())) throw new Error('Administrator access required');
+  const validated = legalSchema.parse(details);
+  const { data, error } = await supabase.from('legal_settings').upsert({ id: 'site', details: validated as Json, updated_at: new Date().toISOString() }).select('details').single();
+  if (error) throw error;
+  return parseLegalDetails(data.details);
+}
+export async function submitPrivacyRequest(input: { kind: string; note: string }) {
+  const validated = privacyRequestSchema.parse(input);
+  const user = await getCurrentUser();
+  if (!user) throw new Error('Sign in to verify account ownership');
+  const { data, error } = await supabase.from('privacy_requests').insert({ ...validated, owner_id: user.id }).select('*').single();
+  if (error?.code === '23505') throw new Error('You already have this request on file. Check its status below.');
+  if (error) throw error;
+  return data;
+}
+export async function getMyPrivacyRequests() {
+  const user = await getCurrentUser();
+  if (!user) return [];
+  const { data, error } = await supabase.from('privacy_requests').select('*').eq('owner_id', user.id).order('created_at', { ascending: false });
+  if (error) throw error;
+  return data;
+}
+export async function getAdminPrivacyRequests() {
+  if (!(await getAdminAccess())) throw new Error('Administrator access required');
+  const { data, error } = await supabase.from('privacy_requests').select('*').order('created_at', { ascending: false });
+  if (error) throw error;
+  return data;
+}
+export async function reviewPrivacyRequest(input: { id: string; status: string; response: string }) {
+  const validated = privacyReviewSchema.parse(input);
+  if (!(await getAdminAccess())) throw new Error('Administrator access required');
+  const { error } = await supabase.from('privacy_requests').update({ status: validated.status, response: validated.response, updated_at: new Date().toISOString() }).eq('id', validated.id);
+  if (error) throw error;
 }
