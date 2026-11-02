@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {AdminPricingPanel} from '@/components/kaliza/AdminPricingPanel';
+import {AdminLegalPanel} from '@/components/kaliza/AdminLegalPanel';
 import {Link} from '@tanstack/react-router';
 import {useQuery,useQueryClient} from '@tanstack/react-query';
 import {Shield,Activity,Building2,Workflow,Plug,ScrollText,Pause,Play,ArrowUpRight,Search,Coins} from 'lucide-react';
