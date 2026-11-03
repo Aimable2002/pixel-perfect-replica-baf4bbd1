@@ -3,6 +3,7 @@
 - [x] Add durable administrator editing for legal placeholders and business details
 - [x] Add owner deletion requests, private status tracking and administrator review
 - [x] Verify legal settings persistence, permissions and public page readback
+- [x] Finish legal review guidance and recheck saved admin edits across public pages
 - [ ] Complete legal business details and obtain Rwanda-qualified review (blocked: owner details and external legal review)
 - [ ] Activate verified account/provider deletion, Meta signed callback and retention jobs (blocked: live provider activation and verified retention obligations)
 - [x] Public landing, pricing, features and recovery pages
