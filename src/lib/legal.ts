@@ -63,4 +63,8 @@ export const requestKinds = [
   ['correct_data', 'Correct my personal data'],
 ] as const;
 export const privacyRequestSchema = z.object({ kind: z.enum(['delete_account', 'delete_meta_data', 'access_data', 'correct_data']), note: z.string().trim().max(2000).default('') });
-export const privacyReviewSchema = z.object({ id: z.string().uuid(), status: z.enum(['requested', 'in_review', 'action_required']), response: z.string().trim().max(4000) });
+export const privacyReviewSchema = z.object({ id: z.string().uuid(), status: z.enum(['requested', 'in_review', 'action_required']), response: z.string().trim().max(4000) }).superRefine((data, ctx) => {
+  if (data.status === 'action_required' && !data.response) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['response'], message: 'Explain what the account owner needs to do before marking action required.' });
+  }
+});

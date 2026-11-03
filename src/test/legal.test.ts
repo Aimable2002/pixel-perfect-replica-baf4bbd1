@@ -30,4 +30,10 @@ describe('Legal configuration rules', () => {
     expect(privacyReviewSchema.safeParse({ ...input, status: 'in_review' }).success).toBe(true);
     expect(privacyReviewSchema.safeParse({ ...input, status: 'completed' }).success).toBe(false);
   });
+  it('requires a next step when an administrator requests owner action', () => {
+    const input = { id: '5f647f75-b030-4816-95df-c20137a54e79', status: 'action_required' };
+    expect(privacyReviewSchema.safeParse({ ...input, response: '   ' }).success).toBe(false);
+    expect(privacyReviewSchema.safeParse({ ...input, response: 'Please identify the information you want corrected.' }).success).toBe(true);
+    expect(privacyReviewSchema.safeParse({ ...input, status: 'in_review', response: '' }).success).toBe(true);
+  });
 });
