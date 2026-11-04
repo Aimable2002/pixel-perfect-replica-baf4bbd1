@@ -33,7 +33,7 @@ export function ActionCard({ action, onAdjust }: { action: AgentAction; onAdjust
 
   if (action.kind === 'budget') {
     return (
-      <article className="overflow-hidden rounded-xl border border-t-2 border-t-warning bg-card p-4">
+      <article className="mx-auto w-full max-w-md overflow-hidden rounded-xl border border-t-2 border-t-warning bg-card p-4">
         <div className="flex items-center gap-2 text-xs font-semibold text-warning">
           <TrendingUp className="size-4" />Budget Recommendation
           {pending && <span className="ml-auto rounded border border-warning/60 bg-warning/10 px-2 py-0.5 text-[10px]">Action required</span>}
@@ -55,7 +55,7 @@ export function ActionCard({ action, onAdjust }: { action: AgentAction; onAdjust
 
   const isPost = action.kind === 'post';
   return (
-    <article className="overflow-hidden rounded-xl border bg-card">
+    <article className="mx-auto w-full max-w-md overflow-hidden rounded-xl border bg-card">
       <div className="flex items-center gap-2 border-b px-4 py-2.5 text-[10px] font-semibold uppercase tracking-wider text-primary">
         {isPost ? <Sparkles className="size-3.5" /> : <MessageSquare className="size-3.5" />}
         {isPost ? 'AI Content Generator' : 'Suggested reply'}<span className="font-normal normal-case text-muted-foreground">· Ready for review</span>
@@ -64,7 +64,7 @@ export function ActionCard({ action, onAdjust }: { action: AgentAction; onAdjust
       <div className="p-3">
         {isPost && <p className="mb-3 px-1 text-sm">Here’s your draft. Ready when you are.</p>}
         <div className="overflow-hidden rounded-lg border bg-background">
-          {action.image && <div className="relative"><img src={action.image} alt="Content draft" className="aspect-[16/10] w-full object-cover" /><span className="absolute left-2 top-2 rounded-full bg-cover/75 px-2.5 py-1 text-[10px] font-semibold text-cover-foreground">Instagram & FB Feed</span></div>}
+          {action.image && <div className="relative"><img src={action.image} alt="Content draft" className="aspect-[16/9] max-h-56 w-full object-cover" /><span className="absolute left-2 top-2 rounded-full bg-cover/75 px-2.5 py-1 text-[10px] font-semibold text-cover-foreground">Instagram & FB Feed</span></div>}
           <div className="p-3">
             <h3 className="text-sm font-semibold">{isPost ? 'Slow mornings. Good company.' : action.title}</h3>
             <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{action.body}</p>
