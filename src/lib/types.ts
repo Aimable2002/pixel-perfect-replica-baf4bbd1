@@ -12,7 +12,7 @@ export interface Campaign { id: string; name: string; objective: string; status:
 export type LeadStatus = "new" | "contacted" | "hot" | "won" | "lost";
 export interface Lead { id: string; name: string; source: string; interest: string; value: number; status: LeadStatus; lastContact: string }
 export interface AnalyticsPoint { date: string; reach: number; engagement: number; leads: number; spend: number; results: number }
-export interface AgentMessage { id: string; role: "user" | "agent"; text: string; time: string; actionIds?: string[] }
+export interface AgentMessage { id: string; role: "user" | "agent"; text: string; time: string; actionIds?: string[]; service?: 'business' | 'career'; applicationId?: string }
 export interface TeamMember { id: string; name: string; email: string; role: "Owner" | "Editor" | "Viewer" }
 export interface ConnectedAccount { id: string; name: string; handle: string; connected: boolean }
 
@@ -168,3 +168,24 @@ export interface AdminPricing {
   /** ISO date the provider prices were last checked. */
   costsCheckedOn: string;
 }
+
+export type ApplicationStatus = 'Interested' | 'Preparing' | 'Awaiting Approval' | 'Ready to Submit' | 'Submitted' | 'Action Required' | 'Interview' | 'Rejected' | 'Successful' | 'Expired';
+export interface CareerDocument { id: string; name: string; kind: 'CV' | 'Cover letter' | 'Supporting document'; content?: string; url?: string }
+export interface CareerProfile {
+  name: string; email: string; phone: string; headline: string; summary: string;
+  education: string; experience: string; skills: string; certifications: string; languages: string;
+  category: string; location: string; employment: string; level: string; salary: string; currency: string;
+  documents: CareerDocument[];
+}
+export interface JobOpportunity {
+  id: string; title: string; employer: string; employerInfo: string; location: string;
+  category: string; employment: string; level: string; deadline: string; source: string; sourceUrl?: string;
+  description: string; responsibilities: string[]; requirements: string[]; instructions: string;
+  match: number | null; analysis: string; strengths: string[]; gaps: string[]; saved: boolean; isSample: boolean;
+}
+export interface JobApplication {
+  id: string; jobId: string; status: ApplicationStatus; updatedAt: string;
+  documents: CareerDocument[]; answers: { question: string; answer: string }[];
+  history: { text: string; time: string }[]; isSample: boolean; authorized: boolean;
+}
+export interface CareerActivity { id: string; text: string; time: string; applicationId?: string }
