@@ -29,6 +29,10 @@ const db = {
   leads: structuredClone(seed.mockLeads),
   analytics: structuredClone(seed.mockAnalytics),
   history: structuredClone(seed.mockAgentHistory),
+  careerProfile: structuredClone(seed.mockCareerProfile),
+  careerJobs: structuredClone(seed.mockCareerJobs),
+  careerApplications: structuredClone(seed.mockCareerApplications),
+  careerActivity: structuredClone(seed.mockCareerActivity),
   actions: structuredClone(seed.mockActions),
   accounts: structuredClone(seed.mockAccounts),
   team: structuredClone(seed.mockTeam),
@@ -224,7 +228,17 @@ export const mockSource: DataSource = {
 
   getAgentHistory: () => wait(db.history),
   getAgentActions: () => wait(db.actions),
-  sendAgentMessage: async (text) => {
+  sendAgentMessage: async (text, service = 'business') => {
+    if (service === 'career') {
+      const body = /deadline|status/i.test(text)
+        ? `You have ${db.careerApplications.length} sample applications. No application has been submitted to an employer. Check each vacancy’s deadline before applying.`
+        : /profile|cv|skills/i.test(text)
+          ? 'Your career profile and documents can be reviewed in My Profile. AI extraction and tailoring are not connected yet; I will not invent qualifications or claim to have analyzed your CV.'
+          : 'Career research and application preparation need the existing execution backend to be connected. You can review fictional sample vacancies, save them and open a sample application workspace. Nothing is sent to an employer.';
+      const reply: AgentMessage = { id: uid(), role: 'agent', text: body, time: now(), service: 'career' };
+      db.history.push({ id: uid(), role: 'user', text, time: now(), service: 'career' }, reply);
+      return wait(reply, 250);
+    }
     const { body, actionIds } = runFakeAgent(text);
     const reply: AgentMessage = { id: uid(), role: "agent", text: body, time: now(), actionIds };
     db.history.push({ id: uid(), role: "user", text, time: now() }, reply);
@@ -297,4 +311,39 @@ export const mockSource: DataSource = {
   getCheckoutIntent: () => wait(readIntent(), 100),
 
   getAdminPreview: (): Promise<AdminPreview> => wait({ tenants: seed.mockTenants, jobs: seed.mockJobs }),
+  getCareerProfile: () => wait(db.careerProfile, 100),
+  saveCareerProfile: async profile => { db.careerProfile = structuredClone(profile); return wait(db.careerProfile, 100); },
+  addCareerDocument: async document => { db.careerProfile.documents.push(structuredClone(document)); return wait(db.careerProfile, 100); },
+  removeCareerDocument: async id => { db.careerProfile.documents = db.careerProfile.documents.filter(d => d.id !== id); return wait(db.careerProfile, 100); },
+  getCareerJobs: () => wait(db.careerJobs, 100),
+  saveCareerJob: async (id, saved) => {
+    const job = db.careerJobs.find(j => j.id === id);
+    if (!job) throw new Error('Vacancy not found');
+    job.saved = saved;
+    db.careerActivity.unshift({ id: uid(), text: `${saved ? 'Saved' : 'Removed saved'} sample vacancy: ${job.title}`, time: now() });
+    return wait(job, 100);
+  },
+  getCareerApplications: () => wait(db.careerApplications, 100),
+  prepareCareerApplication: async jobId => {
+    const job = db.careerJobs.find(j => j.id === jobId);
+    if (!job) throw new Error('Vacancy not found');
+    const existing = db.careerApplications.find(a => a.jobId === jobId);
+    if (existing) return wait(existing, 100);
+    const application: import('./types').JobApplication = { id: uid(), jobId, status: 'Interested', updatedAt: now(), documents: [], answers: [], history: [{ text: 'Sample workspace opened. Document preparation has not run.', time: now() }], isSample: true, authorized: false };
+    db.careerApplications.unshift(application);
+    db.careerActivity.unshift({ id: uid(), text: `Opened sample application workspace: ${job.title}`, time: now(), applicationId: application.id });
+    return wait(application, 100);
+  },
+  approveCareerApplication: async (id, authorized) => {
+    const application = db.careerApplications.find(a => a.id === id);
+    if (!application) throw new Error('Application not found');
+    if (!authorized) throw new Error('Explicit authorization is required');
+    if (application.status !== 'Awaiting Approval' || !application.documents.length) throw new Error('Prepared documents must be reviewed before approval');
+    application.authorized = true;
+    application.status = 'Ready to Submit';
+    application.updatedAt = now();
+    application.history.push({ text: 'Documents approved. No submission has taken place.', time: now() });
+    return wait(application, 100);
+  },
+  getCareerActivity: () => wait(db.careerActivity, 100),
 };

@@ -12,6 +12,7 @@ import type {
   ActivityItem, AdminPricing, AgentAction, AgentMessage, AgentSuggestion, AnalyticsPoint, Campaign, CampaignInput,
   CampaignStatus, CheckoutIntent, ConnectedAccount, Conversation, DashboardMetric, Lead, LeadStatus,
   MediaItem, PricingCatalog, Post, PostInput, PostStatus, PromoResult, TeamMember, UsageSnapshot,
+  CareerProfile, CareerDocument, JobOpportunity, JobApplication, CareerActivity,
 } from "./types";
 
 export interface AdminPreview {
@@ -54,7 +55,7 @@ export interface DataSource {
   // Agent. The backend runs the real agent; the mock fakes it with keyword matching.
   getAgentHistory(): Promise<AgentMessage[]>;
   getAgentActions(): Promise<AgentAction[]>;
-  sendAgentMessage(text: string): Promise<AgentMessage>;
+  sendAgentMessage(text: string, service?: 'business' | 'career'): Promise<AgentMessage>;
   resolveAgentAction(id: string, approved: boolean, amount?: number): Promise<AgentAction | undefined>;
 
   // Settings
@@ -77,4 +78,14 @@ export interface DataSource {
 
   // Platform administration preview shown to signed-out visitors
   getAdminPreview(): Promise<AdminPreview>;
+  getCareerProfile(): Promise<CareerProfile>;
+  saveCareerProfile(profile: CareerProfile): Promise<CareerProfile>;
+  addCareerDocument(document: CareerDocument): Promise<CareerProfile>;
+  removeCareerDocument(id: string): Promise<CareerProfile>;
+  getCareerJobs(): Promise<JobOpportunity[]>;
+  saveCareerJob(id: string, saved: boolean): Promise<JobOpportunity>;
+  getCareerApplications(): Promise<JobApplication[]>;
+  prepareCareerApplication(jobId: string): Promise<JobApplication>;
+  approveCareerApplication(id: string, authorized: boolean): Promise<JobApplication>;
+  getCareerActivity(): Promise<CareerActivity[]>;
 }
