@@ -15,6 +15,7 @@ import { readPublicLegalDetails } from './legal.functions';
 import { legalSchema, parseLegalDetails, privacyRequestSchema, privacyReviewSchema, type LegalDetails } from './legal';
 import type {
   AdminPricing, AgentAction, CampaignInput, CampaignStatus, CheckoutIntent, Conversation, LeadStatus, PostInput, PostStatus,
+  CareerProfile, CareerDocument,
 } from "./types";
 
 export * from "./types";
@@ -182,7 +183,7 @@ export const getAnalytics = (days: number) => source.getAnalytics(days);
 // ─── Agent ───────────────────────────────────────────────────────────────────
 export const getAgentHistory = () => source.getAgentHistory();
 export const getAgentActions = (): Promise<AgentAction[]> => source.getAgentActions();
-export const sendAgentMessage = (text: string) => source.sendAgentMessage(text);
+export const sendAgentMessage = (text: string, service?: 'business' | 'career') => source.sendAgentMessage(text, service);
 
 export async function resolveAgentAction(id: string, approved: boolean, amount?: number) {
   // The pause flag lives on the Supabase workspace row, so it is checked here.
@@ -259,3 +260,15 @@ export async function reviewPrivacyRequest(input: { id: string; status: string; 
   const { error } = await supabase.from('privacy_requests').update({ status: validated.status, response: validated.response, updated_at: new Date().toISOString() }).eq('id', validated.id);
   if (error) throw error;
 }
+
+// Career Growth follows the same replaceable domain source as Business Growth.
+export const getCareerProfile = () => source.getCareerProfile();
+export const saveCareerProfile = (profile: CareerProfile) => source.saveCareerProfile(profile);
+export const addCareerDocument = (document: CareerDocument) => source.addCareerDocument(document);
+export const removeCareerDocument = (id: string) => source.removeCareerDocument(id);
+export const getCareerJobs = () => source.getCareerJobs();
+export const saveCareerJob = (id: string, saved: boolean) => source.saveCareerJob(id, saved);
+export const getCareerApplications = () => source.getCareerApplications();
+export const prepareCareerApplication = (jobId: string) => source.prepareCareerApplication(jobId);
+export const approveCareerApplication = (id: string, authorized: boolean) => source.approveCareerApplication(id, authorized);
+export const getCareerActivity = () => source.getCareerActivity();
