@@ -40,6 +40,14 @@ import { Route as AuthenticatedAdminPricingRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminTenantsRouteImport } from './routes/_authenticated/admin.tenants'
 import { Route as AuthenticatedAdsIndexRouteImport } from './routes/_authenticated/ads.index'
 import { Route as AuthenticatedAdsIdRouteImport } from './routes/_authenticated/ads.$id'
+import { Route as AuthenticatedCareerActivityRouteImport } from './routes/_authenticated/career.activity'
+import { Route as AuthenticatedCareerOverviewRouteImport } from './routes/_authenticated/career.overview'
+import { Route as AuthenticatedCareerProfileRouteImport } from './routes/_authenticated/career.profile'
+import { Route as AuthenticatedCareerSavedRouteImport } from './routes/_authenticated/career.saved'
+import { Route as AuthenticatedCareerApplicationsIndexRouteImport } from './routes/_authenticated/career.applications.index'
+import { Route as AuthenticatedCareerApplicationsIdRouteImport } from './routes/_authenticated/career.applications.$id'
+import { Route as AuthenticatedCareerOpportunitiesIndexRouteImport } from './routes/_authenticated/career.opportunities.index'
+import { Route as AuthenticatedCareerOpportunitiesIdRouteImport } from './routes/_authenticated/career.opportunities.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -198,6 +206,54 @@ const AuthenticatedAdsIdRoute = AuthenticatedAdsIdRouteImport.update({
   path: '/ads/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCareerActivityRoute =
+  AuthenticatedCareerActivityRouteImport.update({
+    id: '/career/activity',
+    path: '/career/activity',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCareerOverviewRoute =
+  AuthenticatedCareerOverviewRouteImport.update({
+    id: '/career/overview',
+    path: '/career/overview',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCareerProfileRoute =
+  AuthenticatedCareerProfileRouteImport.update({
+    id: '/career/profile',
+    path: '/career/profile',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCareerSavedRoute =
+  AuthenticatedCareerSavedRouteImport.update({
+    id: '/career/saved',
+    path: '/career/saved',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCareerApplicationsIndexRoute =
+  AuthenticatedCareerApplicationsIndexRouteImport.update({
+    id: '/career/applications/',
+    path: '/career/applications/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCareerApplicationsIdRoute =
+  AuthenticatedCareerApplicationsIdRouteImport.update({
+    id: '/career/applications/$id',
+    path: '/career/applications/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCareerOpportunitiesIndexRoute =
+  AuthenticatedCareerOpportunitiesIndexRouteImport.update({
+    id: '/career/opportunities/',
+    path: '/career/opportunities/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCareerOpportunitiesIdRoute =
+  AuthenticatedCareerOpportunitiesIdRouteImport.update({
+    id: '/career/opportunities/$id',
+    path: '/career/opportunities/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -228,8 +284,16 @@ export interface FileRoutesByFullPath {
   '/admin/pricing': typeof AuthenticatedAdminPricingRoute
   '/admin/tenants': typeof AuthenticatedAdminTenantsRoute
   '/ads/$id': typeof AuthenticatedAdsIdRoute
+  '/career/activity': typeof AuthenticatedCareerActivityRoute
+  '/career/overview': typeof AuthenticatedCareerOverviewRoute
+  '/career/profile': typeof AuthenticatedCareerProfileRoute
+  '/career/saved': typeof AuthenticatedCareerSavedRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/ads/': typeof AuthenticatedAdsIndexRoute
+  '/career/applications/$id': typeof AuthenticatedCareerApplicationsIdRoute
+  '/career/opportunities/$id': typeof AuthenticatedCareerOpportunitiesIdRoute
+  '/career/applications/': typeof AuthenticatedCareerApplicationsIndexRoute
+  '/career/opportunities/': typeof AuthenticatedCareerOpportunitiesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -260,8 +324,16 @@ export interface FileRoutesByTo {
   '/admin/pricing': typeof AuthenticatedAdminPricingRoute
   '/admin/tenants': typeof AuthenticatedAdminTenantsRoute
   '/ads/$id': typeof AuthenticatedAdsIdRoute
+  '/career/activity': typeof AuthenticatedCareerActivityRoute
+  '/career/overview': typeof AuthenticatedCareerOverviewRoute
+  '/career/profile': typeof AuthenticatedCareerProfileRoute
+  '/career/saved': typeof AuthenticatedCareerSavedRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/ads': typeof AuthenticatedAdsIndexRoute
+  '/career/applications/$id': typeof AuthenticatedCareerApplicationsIdRoute
+  '/career/opportunities/$id': typeof AuthenticatedCareerOpportunitiesIdRoute
+  '/career/applications': typeof AuthenticatedCareerApplicationsIndexRoute
+  '/career/opportunities': typeof AuthenticatedCareerOpportunitiesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -294,8 +366,16 @@ export interface FileRoutesById {
   '/_authenticated/admin/pricing': typeof AuthenticatedAdminPricingRoute
   '/_authenticated/admin/tenants': typeof AuthenticatedAdminTenantsRoute
   '/_authenticated/ads/$id': typeof AuthenticatedAdsIdRoute
+  '/_authenticated/career/activity': typeof AuthenticatedCareerActivityRoute
+  '/_authenticated/career/overview': typeof AuthenticatedCareerOverviewRoute
+  '/_authenticated/career/profile': typeof AuthenticatedCareerProfileRoute
+  '/_authenticated/career/saved': typeof AuthenticatedCareerSavedRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/ads/': typeof AuthenticatedAdsIndexRoute
+  '/_authenticated/career/applications/$id': typeof AuthenticatedCareerApplicationsIdRoute
+  '/_authenticated/career/opportunities/$id': typeof AuthenticatedCareerOpportunitiesIdRoute
+  '/_authenticated/career/applications/': typeof AuthenticatedCareerApplicationsIndexRoute
+  '/_authenticated/career/opportunities/': typeof AuthenticatedCareerOpportunitiesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -328,8 +408,16 @@ export interface FileRouteTypes {
     | '/admin/pricing'
     | '/admin/tenants'
     | '/ads/$id'
+    | '/career/activity'
+    | '/career/overview'
+    | '/career/profile'
+    | '/career/saved'
     | '/admin/'
     | '/ads/'
+    | '/career/applications/$id'
+    | '/career/opportunities/$id'
+    | '/career/applications/'
+    | '/career/opportunities/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -360,8 +448,16 @@ export interface FileRouteTypes {
     | '/admin/pricing'
     | '/admin/tenants'
     | '/ads/$id'
+    | '/career/activity'
+    | '/career/overview'
+    | '/career/profile'
+    | '/career/saved'
     | '/admin'
     | '/ads'
+    | '/career/applications/$id'
+    | '/career/opportunities/$id'
+    | '/career/applications'
+    | '/career/opportunities'
   id:
     | '__root__'
     | '/'
@@ -393,8 +489,16 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/pricing'
     | '/_authenticated/admin/tenants'
     | '/_authenticated/ads/$id'
+    | '/_authenticated/career/activity'
+    | '/_authenticated/career/overview'
+    | '/_authenticated/career/profile'
+    | '/_authenticated/career/saved'
     | '/_authenticated/admin/'
     | '/_authenticated/ads/'
+    | '/_authenticated/career/applications/$id'
+    | '/_authenticated/career/opportunities/$id'
+    | '/_authenticated/career/applications/'
+    | '/_authenticated/career/opportunities/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -632,6 +736,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdsIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/career/activity': {
+      id: '/_authenticated/career/activity'
+      path: '/career/activity'
+      fullPath: '/career/activity'
+      preLoaderRoute: typeof AuthenticatedCareerActivityRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/career/overview': {
+      id: '/_authenticated/career/overview'
+      path: '/career/overview'
+      fullPath: '/career/overview'
+      preLoaderRoute: typeof AuthenticatedCareerOverviewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/career/profile': {
+      id: '/_authenticated/career/profile'
+      path: '/career/profile'
+      fullPath: '/career/profile'
+      preLoaderRoute: typeof AuthenticatedCareerProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/career/saved': {
+      id: '/_authenticated/career/saved'
+      path: '/career/saved'
+      fullPath: '/career/saved'
+      preLoaderRoute: typeof AuthenticatedCareerSavedRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/career/applications/': {
+      id: '/_authenticated/career/applications/'
+      path: '/career/applications'
+      fullPath: '/career/applications/'
+      preLoaderRoute: typeof AuthenticatedCareerApplicationsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/career/applications/$id': {
+      id: '/_authenticated/career/applications/$id'
+      path: '/career/applications/$id'
+      fullPath: '/career/applications/$id'
+      preLoaderRoute: typeof AuthenticatedCareerApplicationsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/career/opportunities/': {
+      id: '/_authenticated/career/opportunities/'
+      path: '/career/opportunities'
+      fullPath: '/career/opportunities/'
+      preLoaderRoute: typeof AuthenticatedCareerOpportunitiesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/career/opportunities/$id': {
+      id: '/_authenticated/career/opportunities/$id'
+      path: '/career/opportunities/$id'
+      fullPath: '/career/opportunities/$id'
+      preLoaderRoute: typeof AuthenticatedCareerOpportunitiesIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -652,8 +812,16 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminPricingRoute: typeof AuthenticatedAdminPricingRoute
   AuthenticatedAdminTenantsRoute: typeof AuthenticatedAdminTenantsRoute
   AuthenticatedAdsIdRoute: typeof AuthenticatedAdsIdRoute
+  AuthenticatedCareerActivityRoute: typeof AuthenticatedCareerActivityRoute
+  AuthenticatedCareerOverviewRoute: typeof AuthenticatedCareerOverviewRoute
+  AuthenticatedCareerProfileRoute: typeof AuthenticatedCareerProfileRoute
+  AuthenticatedCareerSavedRoute: typeof AuthenticatedCareerSavedRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdsIndexRoute: typeof AuthenticatedAdsIndexRoute
+  AuthenticatedCareerApplicationsIdRoute: typeof AuthenticatedCareerApplicationsIdRoute
+  AuthenticatedCareerOpportunitiesIdRoute: typeof AuthenticatedCareerOpportunitiesIdRoute
+  AuthenticatedCareerApplicationsIndexRoute: typeof AuthenticatedCareerApplicationsIndexRoute
+  AuthenticatedCareerOpportunitiesIndexRoute: typeof AuthenticatedCareerOpportunitiesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -673,8 +841,20 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminPricingRoute: AuthenticatedAdminPricingRoute,
   AuthenticatedAdminTenantsRoute: AuthenticatedAdminTenantsRoute,
   AuthenticatedAdsIdRoute: AuthenticatedAdsIdRoute,
+  AuthenticatedCareerActivityRoute: AuthenticatedCareerActivityRoute,
+  AuthenticatedCareerOverviewRoute: AuthenticatedCareerOverviewRoute,
+  AuthenticatedCareerProfileRoute: AuthenticatedCareerProfileRoute,
+  AuthenticatedCareerSavedRoute: AuthenticatedCareerSavedRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdsIndexRoute: AuthenticatedAdsIndexRoute,
+  AuthenticatedCareerApplicationsIdRoute:
+    AuthenticatedCareerApplicationsIdRoute,
+  AuthenticatedCareerOpportunitiesIdRoute:
+    AuthenticatedCareerOpportunitiesIdRoute,
+  AuthenticatedCareerApplicationsIndexRoute:
+    AuthenticatedCareerApplicationsIndexRoute,
+  AuthenticatedCareerOpportunitiesIndexRoute:
+    AuthenticatedCareerOpportunitiesIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
