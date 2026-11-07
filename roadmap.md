@@ -1,11 +1,11 @@
 # Kaliza rebuild
 ## Career Growth expansion
-- [ ] Add collapsible service navigation while preserving Business Growth
-- [ ] Add career profile, documents and Rwanda-first preferences
-- [ ] Add overview, vacancy discovery/details, saved jobs and activity
-- [ ] Add application tracking, review workspace and contextual operator conversation
-- [ ] Update public service discovery and onboarding entry
-- [ ] Verify career flows and mobile navigation
+- [x] Add collapsible service navigation while preserving Business Growth
+- [x] Add career profile, documents and Rwanda-first preferences
+- [x] Add overview, vacancy discovery/details, saved jobs and activity
+- [x] Add application tracking, review workspace and contextual operator conversation
+- [x] Update public service discovery and onboarding entry
+- [x] Verify career flows and mobile navigation
 - [ ] Activate live vacancy research, document generation and authorized submission (blocked: existing execution backend integration)
 
 - [x] Add public privacy, terms and data-deletion pages aligned with actual services

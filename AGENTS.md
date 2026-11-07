@@ -22,3 +22,6 @@
 - Pure pricing maths lives in `src/lib/pricing.ts` and takes the catalog as an argument, so it survives deleting the mock.
 - Agent proposals use reusable ActionCard controls shared by the command center and conversation so owners review actions inline.
 - Legal disclosures are shared durable public configuration with administrator-only writes; public reads go through the api.ts seam and a publishable server function for SSR. Privacy requests are owner-readable and administrator-reviewed under RLS; review statuses must not imply unexecuted deletion.
+
+- Career Growth uses the same DataSource, api.ts seam, authenticated shell and agent conversation; its preview data and documents are session-only until the existing execution backend is connected, avoiding a second agent architecture.
+- Career query options are shared by leaf loaders and suspense consumers so all career views read the same source and invalidate together.
