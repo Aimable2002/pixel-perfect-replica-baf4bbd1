@@ -52,7 +52,7 @@ function Pricing() {
         <p className="hud-label">An operator for every stage</p>
         <h1 className="mt-5 text-4xl font-semibold md:text-5xl">Kaliza pricing.</h1>
         <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
-          Every feature is on every plan. Plans differ only in how much your operator can use each month, and each allowance is listed below. Proposed pricing; checkout is not activated.
+          Business Growth and Career Growth share the same proposed plans and operator allowances; there is no separate career charge. Live career research and submission are not activated. Every feature is on every plan. Plans differ only in how much your operator can use each month, and each allowance is listed below. Proposed pricing; checkout is not activated.
         </p>
 
         <div className="mt-8 flex flex-wrap items-start justify-between gap-6">
