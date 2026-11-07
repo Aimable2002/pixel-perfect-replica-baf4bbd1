@@ -1,4 +1,10 @@
 # Kaliza rebuild
+## Two-service platform presentation
+- [ ] Present both services equally on landing, service pages and product tour
+- [ ] Update shared navigation, sign-in and welcome wording
+- [ ] Show both services on plan cards, custom pricing and billing without changing rates
+- [ ] Verify public journeys on desktop/mobile and run relevant tests
+
 ## Career Growth expansion
 - [x] Add collapsible service navigation while preserving Business Growth
 - [x] Add career profile, documents and Rwanda-first preferences
